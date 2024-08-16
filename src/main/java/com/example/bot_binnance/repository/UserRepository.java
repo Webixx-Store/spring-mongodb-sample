@@ -9,4 +9,5 @@ import com.example.bot_binnance.model.User;
 @Repository
 public interface UserRepository    extends MongoRepository<User, String>{
 	 Optional<User> findByEmailOrId(String email, String id);
+	 Optional<User> findByToken(String token);
 }

@@ -11,6 +11,8 @@ import com.example.bot_binnance.service.UserService;
 
 import jakarta.validation.Valid;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
+@RequestMapping("/api/user/")
 public class UserController {
 
     @Autowired
@@ -44,7 +47,7 @@ public class UserController {
     MyUserDetail myUserDetail;
 
 
-    @PostMapping("/save")
+    @PostMapping("save")
     public ResponseEntity<ResultDto<User>> saveOrUpdateUser(@Valid @RequestBody User user) {
         try {
             User savedUser = userService.saveOrUpdateUser(user);
@@ -56,7 +59,7 @@ public class UserController {
         }
     }
     
-    @PostMapping("/api/user/authenticate")
+    @PostMapping("authenticate")
     public ResponseEntity<?> createAuthencationToken(@RequestBody AuthencationRequest authencationRequest)
             throws Exception {
         String userid = "";
@@ -68,9 +71,9 @@ public class UserController {
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(userid,password));
             }else {
-                User member = null ; //userSerivece.getUserByGoogleID(authencationRequest.getGoogleID());
-                if(null != member) {
-                    userid = member.getId();
+                Optional<User> member = userSerivece.findByToken(authencationRequest.getGoogleID());
+                if(member.isPresent()) {
+                    userid = member.get().getId();
                 }else {
                     throw new BadCredentialsException("google account is not registered");
                 }

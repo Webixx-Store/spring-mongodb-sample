@@ -71,6 +71,8 @@ public class UserServiceImpl implements UserService{
         existingUser.setPhoneNumber(newUser.getPhoneNumber());
         existingUser.setAddress(newUser.getAddress());
         existingUser.setDateOfBirth(newUser.getDateOfBirth());
+        existingUser.setRole(newUser.getRole());
+        existingUser.setToken(newUser.getToken());
         existingUser.setTimeUpdate(LocalDateTime.now());
     }
 
@@ -79,6 +81,13 @@ public class UserServiceImpl implements UserService{
 	public Optional<User> findByEmail(String email) {
 		// TODO Auto-generated method stub
 		return userRepository.findByEmailOrId(email , email);
+	}
+
+
+	@Override
+	public Optional<User> findByToken(String token) {
+		// TODO Auto-generated method stub
+		 return userRepository.findByToken(token);
 	}
 
 

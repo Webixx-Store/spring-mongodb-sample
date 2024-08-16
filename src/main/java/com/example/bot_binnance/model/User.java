@@ -28,6 +28,10 @@ public class User {
     @NotBlank(message = "Password is mandatory")
     @Size(min = 8, message = "Password should have at least 8 characters")
     private String password;
+    
+    @NotBlank(message = "token is mandatory")
+    @Size(min = 8, message = "token should have at least 8 characters")
+    private String token;
 
     private String firstName;
     private String lastName;
@@ -145,6 +149,14 @@ public class User {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 	

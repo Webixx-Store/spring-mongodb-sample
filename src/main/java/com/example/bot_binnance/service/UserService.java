@@ -9,4 +9,5 @@ public interface UserService {
 	 public User saveOrUpdateUser(User user);
 	 
 	 Optional<User> findByEmail(String email);
+	 Optional<User> findByToken(String token);
 }
