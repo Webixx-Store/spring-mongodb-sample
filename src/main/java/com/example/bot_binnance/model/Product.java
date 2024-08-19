@@ -18,6 +18,7 @@ public class Product {
     private double price;
     private String category;
     private int stock;
+    private String img;
     private LocalDateTime createdAt = LocalDateTime.now();
 
     // Getters và Setters
@@ -77,4 +78,14 @@ public class Product {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+    
+    
 }
