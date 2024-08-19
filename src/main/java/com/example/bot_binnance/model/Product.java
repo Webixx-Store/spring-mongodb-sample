@@ -16,10 +16,16 @@ public class Product {
 
     private String description;
     private double price;
+    private double rate;
     private String category;
     private int stock;
     private String img;
     private LocalDateTime createdAt = LocalDateTime.now();
+    
+    private boolean isBest = false;
+    private boolean isNew = false;
+    private boolean isSale  = false;
+    
 
     // Getters và Setters
 
@@ -85,6 +91,38 @@ public class Product {
 
 	public void setImg(String img) {
 		this.img = img;
+	}
+
+	public boolean isBest() {
+		return isBest;
+	}
+
+	public void setBest(boolean isBest) {
+		this.isBest = isBest;
+	}
+
+	public boolean isNew() {
+		return isNew;
+	}
+
+	public void setNew(boolean isNew) {
+		this.isNew = isNew;
+	}
+
+	public boolean isSale() {
+		return isSale;
+	}
+
+	public void setSale(boolean isSale) {
+		this.isSale = isSale;
+	}
+
+	public double getRate() {
+		return rate;
+	}
+
+	public void setRate(double rate) {
+		this.rate = rate;
 	}
     
     
