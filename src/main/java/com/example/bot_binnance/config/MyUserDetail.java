@@ -18,6 +18,8 @@ import com.example.bot_binnance.repository.UserRepository;
 import com.example.bot_binnance.service.CustomUserDetails;
 import com.example.bot_binnance.service.UserService;
 
+import io.micrometer.common.util.StringUtils;
+
 
 @Service
 public class MyUserDetail  implements UserDetailsService  {
@@ -34,7 +36,12 @@ public class MyUserDetail  implements UserDetailsService  {
 	            throw new UsernameNotFoundException("Khong co tai khoan");
 	        }
 	        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-	        authorities.add(new SimpleGrantedAuthority("admin"));
+	        if (StringUtils.isNotEmpty(user.getRole())) {
+	        	authorities.add(new SimpleGrantedAuthority(user.getRole()));
+	        }else {
+	        	authorities.add(new SimpleGrantedAuthority("guess"));
+	        }
+	        
 	        // System.out.println("this is authorite" + authorities.toString() +
 	        //         "userId : " + user.getUserId());
 	        // config thêm các thông tin cần vào trong userDetail
