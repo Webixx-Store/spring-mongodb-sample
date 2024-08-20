@@ -9,7 +9,7 @@ public class PaymentMethod {
 	  @Id
 	    private String id;
 
-	    private String customerId;
+	    private String userid;
 
 	    @NotBlank(message = "Payment type is mandatory")
 	    private String type;
@@ -33,15 +33,17 @@ public class PaymentMethod {
 	        this.id = id;
 	    }
 
-	    public String getCustomerId() {
-	        return customerId;
-	    }
+	
 
-	    public void setCustomerId(String customerId) {
-	        this.customerId = customerId;
-	    }
+	    public String getUserid() {
+			return userid;
+		}
 
-	    public String getType() {
+		public void setUserid(String userid) {
+			this.userid = userid;
+		}
+
+		public String getType() {
 	        return type;
 	    }
 

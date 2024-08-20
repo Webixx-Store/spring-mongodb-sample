@@ -3,6 +3,7 @@ package com.example.bot_binnance.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.bot_binnance.model.OrderDeli;
 import com.example.bot_binnance.model.PaymentMethod;
 
 public class OrderRequestDto {
@@ -16,7 +17,9 @@ public class OrderRequestDto {
     private String paymentMethodId;
     
     private PaymentMethod paymentMethod;
-
+    
+    private OrderDeli  orderDeli;
+ 
 	public String getId() {
 		return id;
 	}
@@ -79,6 +82,14 @@ public class OrderRequestDto {
 
 	public void setPaymentMethod(PaymentMethod paymentMethod) {
 		this.paymentMethod = paymentMethod;
+	}
+
+	public OrderDeli getOrderDeli() {
+		return orderDeli;
+	}
+
+	public void setOrderDeli(OrderDeli orderDeli) {
+		this.orderDeli = orderDeli;
 	}
     
     

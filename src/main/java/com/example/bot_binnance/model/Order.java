@@ -12,13 +12,14 @@ public class Order {
     @Id
     private String id;
 
-    private String customerId;
+    private String userid;
     private LocalDateTime orderDate = LocalDateTime.now();
     private List<OrderItem> items;
     private double totalAmount;
     private String status;
     private String shippingAddress;
     private String paymentMethodId;
+    private String orderDeliId;
 
     // Getters và Setters
 
@@ -30,13 +31,7 @@ public class Order {
         this.id = id;
     }
 
-    public String getCustomerId() {
-        return customerId;
-    }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
 
     public LocalDateTime getOrderDate() {
         return orderDate;
@@ -85,5 +80,25 @@ public class Order {
     public void setPaymentMethodId(String paymentMethodId) {
         this.paymentMethodId = paymentMethodId;
     }
+
+	public String getOrderDeliId() {
+		return orderDeliId;
+	}
+
+	public void setOrderDeliId(String orderDeliId) {
+		this.orderDeliId = orderDeliId;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+	
+	
+    
+    
 }
 
