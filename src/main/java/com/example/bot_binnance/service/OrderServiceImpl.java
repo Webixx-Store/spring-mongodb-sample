@@ -40,9 +40,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order placeOrder(OrderRequestDto orderRequestDto) {
         // Validate User
-        Optional<User> user = userRepository.findById(orderRequestDto.getUserId());
+    	
+        Optional<User> user = userRepository.findByEmailOrId(orderRequestDto.getUserid()  , orderRequestDto.getUserid());
+     
+        
         if (!user.isPresent()) {
             throw new RuntimeException("User not found");
+        }
+        
+        String userid = user.get().getId();
+        
+        if(orderRequestDto.getItems().size() == 0 ) {
+        	throw new RuntimeException("Items not found");
         }
 
         // Validate Products
@@ -67,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
         } else {
             throw new RuntimeException("Payment method details are missing");
         }
-        // Save Order deli from DTO
+        // Save Order deli from DTO	
         OrderDeli orderDeli = orderRequestDto.getOrderDeli();
         if (orderDeli != null) {
         	orderDeliRepository.save(orderDeli);
@@ -77,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
         // Save the Order
         // Create and save the Order
         Order order = new Order();
-        order.setUserid(orderRequestDto.getUserId());
+        order.setUserid(userid);
         order.setItems(orderRequestDto.getItems());
         order.setTotalAmount(orderRequestDto.getTotalAmount());
         order.setStatus(orderRequestDto.getStatus());

@@ -9,7 +9,7 @@ import com.example.bot_binnance.model.PaymentMethod;
 public class OrderRequestDto {
 	private String id;
 
-    private String userId;
+    private String userid;
     private List<OrderItem> items;
     private double totalAmount;
     private String status;
@@ -27,13 +27,15 @@ public class OrderRequestDto {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
 
-	public String getUserId() {
-		return userId;
+
+	public String getUserid() {
+		return userid;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 
 	public List<OrderItem> getItems() {
