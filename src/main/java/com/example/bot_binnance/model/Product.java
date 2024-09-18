@@ -1,8 +1,13 @@
 package com.example.bot_binnance.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.example.bot_binnance.dto.OrderItem;
+
 import jakarta.validation.constraints.NotBlank;
 
 @Document(collection = "products")
@@ -25,6 +30,9 @@ public class Product {
     private boolean isBest = false;
     private boolean isNew = false;
     private boolean isSale  = false;
+    
+    private List<String > sliders;
+    private String rewiewId;
     
 
     // Getters và Setters
@@ -124,6 +132,23 @@ public class Product {
 	public void setRate(double rate) {
 		this.rate = rate;
 	}
+
+	public List<String> getSliders() {
+		return sliders;
+	}
+
+	public void setSliders(List<String> sliders) {
+		this.sliders = sliders;
+	}
+
+	public String getRewiewId() {
+		return rewiewId;
+	}
+
+	public void setRewiewId(String rewiewId) {
+		this.rewiewId = rewiewId;
+	}
     
+	
     
 }
