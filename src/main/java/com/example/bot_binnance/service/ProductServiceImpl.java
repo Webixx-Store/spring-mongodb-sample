@@ -50,6 +50,7 @@ public class ProductServiceImpl implements ProductService {
 	    	entity.setProductid(dto.getProductid());
 	    	entity.setRating(dto.getRating());
 	    	entity.setUserid(dto.getUserid());
+	    	entity.setImageName(dto.getImageName());
 	    	
 	    	return this.productRewiewRepository.save(entity);
 	    	

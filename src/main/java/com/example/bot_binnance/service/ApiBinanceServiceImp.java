@@ -36,7 +36,7 @@ public class ApiBinanceServiceImp implements ApiBinanceService{
 
 	
 	@Autowired LogService logService;
-	@Autowired TelegramBot telegramBot;
+	//@Autowired TelegramBot telegramBot;
 	
 	 UMFuturesClientImpl client  = new UMFuturesClientImpl(
 			 PrivateKeyBinnance.TESTNET_API_KEY,

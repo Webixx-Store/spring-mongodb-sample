@@ -27,7 +27,6 @@ public class OrderController {
             ResultDto<Order> result = new ResultDto<Order>(200, "Save Order Suscess", order);
             return CommonUtils.RESULT_OK(result);
         } catch (Exception e) {
-            // Xử lý lỗi và trả về phản hồi lỗi phù hợp
         	System.out.println(e.getMessage());
         	ResultDto<String> result = new ResultDto<String>(500, "Save Order Not Fould", e.getMessage());
         	 return CommonUtils.RESULT_OK(result);

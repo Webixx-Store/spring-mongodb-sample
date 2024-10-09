@@ -22,6 +22,17 @@ public class ProductRewiew {
 	private String cmt = "";
 	
 	private LocalDateTime createdAt = LocalDateTime.now();
+	
+	private String imageName;
+
+    // getters and setters
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
 
 	public String getId() {
 		return id;

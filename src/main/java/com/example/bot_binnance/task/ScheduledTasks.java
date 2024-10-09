@@ -17,7 +17,6 @@ import com.example.bot_binnance.service.GridTradingBot;
 import com.example.bot_binnance.service.LogService;
 import com.example.bot_binnance.service.TelegramBot;
 import com.example.bot_binnance.service.TickerService;
-
 //@Component
 public class ScheduledTasks {
 

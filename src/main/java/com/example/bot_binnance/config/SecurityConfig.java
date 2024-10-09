@@ -35,7 +35,11 @@ public class SecurityConfig {
             .csrf().disable()
             .authorizeRequests(authorizeRequests ->
                 authorizeRequests
-                    .requestMatchers("/api/user/authenticate" , "/api/user/save")
+                    .requestMatchers("/api/user/authenticate" 
+                    		, "/api/user/save" 
+                    		, "/api/binance/**" 
+                    		,"/upload/product/**"
+                    		,"/ws/**")
                     .permitAll()
                     .anyRequest().authenticated()
             )

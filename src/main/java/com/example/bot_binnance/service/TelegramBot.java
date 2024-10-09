@@ -11,6 +11,10 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import com.example.bot_binnance.common.PrivateKeyBinnance;
+import com.example.bot_binnance.dto.BinanceOrderType;
+import com.example.bot_binnance.dto.OrderDto;
+import com.example.bot_binnance.dto.PositionDTO;
 import com.example.bot_binnance.model.Telegram;
 import com.example.bot_binnance.task.ScheduledTasks;
 
@@ -24,7 +28,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     private final String botUsername;
     private final String botToken;
-    //@Autowired ApiBinanceService apiBinanceService;
+    @Autowired ApiBinanceService apiBinanceService;
    
     @Autowired LogService logService;
 
@@ -32,6 +36,8 @@ public class TelegramBot extends TelegramLongPollingBot {
         this.botUsername = botUsername;
         this.botToken = botToken;
     }
+    
+    @Autowired TickerService tickerService;
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -60,9 +66,9 @@ public class TelegramBot extends TelegramLongPollingBot {
             int messageId = update.getCallbackQuery().getMessage().getMessageId();
 
             if ("option1".equals(callbackData)) {
-            	//String price = apiBinanceService.getCurrentPrice().getPrice();
-                //String responseText = "Price BTC_USDT : " + price + " USDT";
-               // editMessage(chatId, messageId, responseText);
+            	String price = apiBinanceService.getCurrentPrice().getPrice();
+                String responseText = "Price BTC_USDT : " + price + " USDT";
+                editMessage(chatId, messageId, responseText);
             } else if ("option2".equals(callbackData)) {
                 String promptMessage = "Please enter the public_key and private_key by format XXXX YYYY (with XXXX is public_key and YYYY is private_key):";
                 sendPromptMessage(chatId, promptMessage);
@@ -74,9 +80,25 @@ public class TelegramBot extends TelegramLongPollingBot {
 					editMessage(chatId, messageId, "Start bot is success");
 					ScheduledTasks.enableScheduledTask();
 				}
+            }else if ("option4".equals(callbackData)) {
+            	try {
+            		Double price =  this.createOrder("BUY");
+            		editMessage(chatId, messageId, "create Order BUY: " + price);
+				} catch (Exception e) {
+					// TODO: handle exception
+					editMessage(chatId, messageId, e.getMessage());
+				}
             	
+            	
+            }else if ("option5".equals(callbackData)) {
+            	try {
+            		Double price = this.createOrder("SELL");
+            		editMessage(chatId, messageId, "create Order SELL: " + price);
+				} catch (Exception e) {
+					// TODO: handle exception
+					editMessage(chatId, messageId, e.getMessage());
+				}
             }
-            
             else {
                 String responseText = "Unknown option selected!";
                 editMessage(chatId, messageId, responseText);
@@ -109,10 +131,20 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
        
         button3.setCallbackData("option3");
+        
+        InlineKeyboardButton button4 = new InlineKeyboardButton();
+        button4.setText("Order BUY");
+        button4.setCallbackData("option4");
+        
+        InlineKeyboardButton button5 = new InlineKeyboardButton();
+        button5.setText("Order SELL");
+        button5.setCallbackData("option5");
 
         rowInline.add(button1);
-        rowInline.add(button2);
-        rowInline.add(button3);
+        //rowInline.add(button2);
+        //rowInline.add(button3);
+        rowInline.add(button4);
+        rowInline.add(button5);
         rowsInline.add(rowInline);
 
         inlineKeyboardMarkup.setKeyboard(rowsInline);
@@ -219,6 +251,26 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
 
         return keys;
+    }
+    
+    private Double createOrder(String side) {
+    	OrderDto orderDto =apiBinanceService.createOrder(0d, side, BinanceOrderType.MARKET, 0);
+		OrderDto orderResult = apiBinanceService.listOrder(orderDto.getOrderId()).get(0);
+		double currentPrice = Double.parseDouble(orderResult.getAvgPrice());
+		tickerService.takeProfitAndStoploss("BUY", currentPrice, 1000d, 1000d);
+		return currentPrice;
+
+	}
+    
+    private void closeMarket() {
+    	List<PositionDTO> pDto = this.apiBinanceService.positionInformation(PrivateKeyBinnance.SYMBOL);
+    	if(pDto.get(0).getUnRealizedProfit() < 0 ) {
+    		apiBinanceService.createOrder(0d, "BUY", BinanceOrderType.MARKET, 0);
+    	}
+    	
+        if(pDto.get(0).getUnRealizedProfit() > 0 ) {
+        	apiBinanceService.createOrder(0d, "SELL", BinanceOrderType.MARKET, 0);
+    	}
     }
     
     

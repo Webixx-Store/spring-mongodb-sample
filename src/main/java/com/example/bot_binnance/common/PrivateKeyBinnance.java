@@ -16,8 +16,8 @@ public class PrivateKeyBinnance {
 
 
 	    public static final String TESTNET_BASE_URL = "https://testnet.binancefuture.com";
-	    public static final String TESTNET_API_KEY = "154ebe97d940fb57eb76275d5991fc647846847eb393726194e575358a442713";
-	    public static final String TESTNET_SECRET_KEY = "703c5653f48a5f2e28579633cb60012579f4c1fe5833a214153d204ed38e27b1";
+	    public static final String TESTNET_API_KEY = "9fe6b1c6e7d43c8aae7f3bbfc60baf40125a7ddd807f82b8d21f2814ba5b1205";
+	    public static final String TESTNET_SECRET_KEY = "06c0cc3bd5b14a74ac90efd6ada9f1642f140b399f333b43e7abc9fd4aff6572";
 
 	    public static final double QUANTITY = 0.003d;
 

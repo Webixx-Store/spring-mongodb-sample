@@ -30,8 +30,8 @@ public class TickerService {
 	@Autowired
 	ApiBinanceService binanceService;
 
-	@Autowired
-	TelegramBot telegramBot;
+//	@Autowired
+//	TelegramBot telegramBot;
 
 	public static String lastedevent = null;
 
@@ -67,24 +67,23 @@ public class TickerService {
 			}
 
 			if (TrendAnalysis.rsi_before > 0d && rsi >= 67 && rsi <= 72) {
-				decision = "SORT";
+				decision = "BUY";
 			}
 
 			if (TrendAnalysis.rsi_before > 0d && rsi >= 28 && rsi <= 33) {
-				decision = "LONG";
+				decision = "SELL";
 			}
 			
 			decision = "LONG";
 
-			if ("LONG".equals(decision) || "SORT".equals(decision)) {
+			if ("BUY".equals(decision) || "SELL".equals(decision)) {
 				// create MARKET
 				TrendAnalysis.rsi_before = 0d;
-				String side = decision.equals("LONG") ? "BUY" : "SELL";
-				OrderDto orderDto = binanceService.createOrder(currentPrice, side, BinanceOrderType.MARKET, 0);
+				OrderDto orderDto = binanceService.createOrder(currentPrice, decision, BinanceOrderType.MARKET, 0);
 				OrderDto orderResult = binanceService.listOrder(orderDto.getOrderId()).get(0);
 				currentPrice = Double.parseDouble(orderResult.getAvgPrice());
 				logger.info("entry price : " +orderResult.getAvgPrice() );
-				takeProfitAndStoploss(side, currentPrice, 350d, 350d);
+				takeProfitAndStoploss(decision, currentPrice, 350d, 350d);
 			}
 
 		}
@@ -112,16 +111,16 @@ public class TickerService {
 	}
 
 	public void takeProfitAndStoploss(String side, Double avgPrice, Double TP, Double SL) {
-		if ("LONG".equals(side)) {
+		if ("BUY".equals(side)) {
 			// create TP
 			binanceService.createOrder(avgPrice + TP, PrivateKeyBinnance.SELL, BinanceOrderType.TAKE_PROFIT, 0);
 			// create SL
-			binanceService.createOrder(avgPrice - SL, PrivateKeyBinnance.SELL, BinanceOrderType.STOP, 0);
-		} else {
+			binanceService.createOrder(avgPrice - SL, PrivateKeyBinnance.SELL, BinanceOrderType.STOP_MARKET, 0);
+		} else if ("SELL".equals(side)){
 			// create TP
 			binanceService.createOrder(avgPrice - TP, PrivateKeyBinnance.BUY, BinanceOrderType.TAKE_PROFIT, 0);
 			// create SL
-			binanceService.createOrder(avgPrice + SL, PrivateKeyBinnance.BUY, BinanceOrderType.STOP, 0);
+			binanceService.createOrder(avgPrice + SL, PrivateKeyBinnance.BUY, BinanceOrderType.STOP_MARKET, 0);
 		}
 
 	}

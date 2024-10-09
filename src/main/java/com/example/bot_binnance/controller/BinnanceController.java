@@ -23,23 +23,26 @@ import com.example.bot_binnance.common.BinanceRSI;
 import com.example.bot_binnance.common.PrivateKeyBinnance;
 import com.example.bot_binnance.dto.BinanceOrderType;
 import com.example.bot_binnance.dto.OrderDto;
+import com.example.bot_binnance.dto.PositionDTO;
 import com.example.bot_binnance.dto.TimeFrame;
 import com.example.bot_binnance.dto.TopLongSortAccountRatioDto;
 import com.example.bot_binnance.model.ActionLog;
 import com.example.bot_binnance.model.PriceLogDto;
 import com.example.bot_binnance.service.ApiBinanceService;
 import com.example.bot_binnance.service.LogService;
+import com.example.bot_binnance.service.TickerService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/binance")
 public class BinnanceController {
 	
 	@Autowired LogService actionLogService;
 	@Autowired ApiBinanceService apiBinanceService;
+	@Autowired TickerService tickerService;
 	
 	
 	
@@ -72,13 +75,8 @@ public class BinnanceController {
     @GetMapping("/test")
     public ResponseEntity<?> getMethodName() {
     	try {
-    		List<Double> priceDoubles = this.apiBinanceService.getClosePrices(PrivateKeyBinnance.timeFrame);
-    		
-  
-    		Double rsi = BinanceRSI.calculateBinanceRSI(priceDoubles, 14);
-
-
-    		 return ResponseEntity.ok(rsi);
+    		List<PositionDTO> pDto = this.apiBinanceService.positionInformation(PrivateKeyBinnance.SYMBOL);
+    		 return ResponseEntity.ok(pDto);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
