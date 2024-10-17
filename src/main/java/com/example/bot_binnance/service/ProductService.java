@@ -13,4 +13,5 @@ public interface ProductService {
 	public Product getProductById(String id);
 	ProductRewiew saveProductRewiew(ProductRewiewDto dto);
 	Map<String, Object> getAllProductRewiew(String productid, int page, int size);
+	public Product saveOrUpdateProduct(String id, Product productDetails);
 }

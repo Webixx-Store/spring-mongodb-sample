@@ -18,7 +18,6 @@ public class Product {
 
     @NotBlank(message = "Product name is mandatory")
     private String name;
-
     private String description;
     private double price;
     private double rate;
@@ -26,17 +25,10 @@ public class Product {
     private int stock;
     private String img;
     private LocalDateTime createdAt = LocalDateTime.now();
-    
     private boolean isBest = false;
     private boolean isNew = false;
     private boolean isSale  = false;
-    
     private List<String > sliders;
-    private String rewiewId;
-    
-
-    // Getters và Setters
-
     public String getId() {
         return id;
     }
@@ -111,7 +103,7 @@ public class Product {
 
 	public boolean isNew() {
 		return isNew;
-	}
+	}	
 
 	public void setNew(boolean isNew) {
 		this.isNew = isNew;
@@ -140,15 +132,5 @@ public class Product {
 	public void setSliders(List<String> sliders) {
 		this.sliders = sliders;
 	}
-
-	public String getRewiewId() {
-		return rewiewId;
-	}
-
-	public void setRewiewId(String rewiewId) {
-		this.rewiewId = rewiewId;
-	}
-    
-	
     
 }

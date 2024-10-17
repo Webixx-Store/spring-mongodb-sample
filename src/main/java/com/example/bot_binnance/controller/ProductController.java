@@ -105,6 +105,42 @@ public class ProductController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    
+    @PostMapping("/saveProduct")
+    public ResponseEntity<?> saveProduct(
+            @RequestPart(required = false) MultipartFile img,
+            @RequestPart(required = false) MultipartFile[] sliders,
+            @RequestPart(required = false) String productRequest) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			Product product = objectMapper.readValue(productRequest, Product.class);
+			List<String> sliderPaths = new ArrayList<>();
+			if (sliders != null) {
+				for (MultipartFile slider : sliders) {
+					if (slider != null) {
+						String fileName = this.saveImage(slider);
+						if (fileName != null) {
+							sliderPaths.add(fileName);
+						}
+					}
+				}
+			}
+				
+			if(img != null) {
+				String fileName = this.saveImage(img);
+				if (fileName != null) {
+					product.setImg(fileName);
+				}
+			}
+			product.setSliders(sliderPaths);
+			ResultDto<Product> result = new ResultDto<>(200, "Save Product Review OK",
+			this.productService.saveOrUpdateProduct(product.getId(), product));
+			return ResponseEntity.ok(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+    }
 
     
     private String saveImage(MultipartFile fileData)

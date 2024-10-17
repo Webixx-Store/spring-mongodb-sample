@@ -2,6 +2,7 @@ package com.example.bot_binnance.service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -64,6 +65,31 @@ public class ProductServiceImpl implements ProductService {
 	          response.put("rewiews", rewiews.getContent());
 	          response.put("totalCount", rewiews.getTotalElements());
 	          return response;
+	    }
+	    
+	    @Override
+	    public Product saveOrUpdateProduct(String id, Product productDetails) {
+	        if(id == null) {
+	        	return this.productRepository.save(productDetails);
+	        }else {
+	        	Optional<Product> optionalProduct = this.productRepository.findById(id);
+	        	if(!optionalProduct.isPresent()) {
+	        		return null;
+	        	}
+	        	Product existingProduct =  this.productRepository.findById(id).get();
+	            existingProduct.setName(productDetails.getName());
+	            existingProduct.setDescription(productDetails.getDescription());
+	            existingProduct.setPrice(productDetails.getPrice());
+	            existingProduct.setCategory(productDetails.getCategory());
+	            existingProduct.setStock(productDetails.getStock());
+	            existingProduct.setImg(productDetails.getImg());
+	            existingProduct.setBest(productDetails.isBest());
+	            existingProduct.setNew(productDetails.isNew());
+	            existingProduct.setSale(productDetails.isSale());
+	            existingProduct.setRate(productDetails.getRate());
+	            existingProduct.setSliders(productDetails.getSliders());
+	            return productRepository.save(existingProduct);
+	        }
 	    }
 
 }
