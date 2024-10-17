@@ -60,24 +60,7 @@ public class ProductController {
 		Map<String, Object> response = productService.getAllProductRewiew(productid, page, len);
 	    return ResponseEntity.ok(response);
     }
-    
-//    @PostMapping("/saveRewiew")
-//    public ResponseEntity<?> saveRewiew(
-//    		@RequestParam(required = false) MultipartFile fileData,
-//    		@RequestParam(required = false) ProductRewiewDto productRewiew){
-//    	try {
-//    		String fileName =  this.saveImage(fileData);
-//    		if(fileName != null) {
-//    			productRewiew.setImageName(fileName);
-//    		}
-//			//ProductRewiew response = this.productService.saveProductRewiew(productRewiew);
-//			ResultDto<String> result = new ResultDto<String>(200, "Save Proudt Rewiew OK", "200");
-//			return ResponseEntity.ok(result);
-//		} catch (Exception e) {
-//			e.getStackTrace();
-//			return ResponseEntity.badRequest().body(e.getMessage());
-//		}
-//    }
+
     
     @PostMapping("/saveRewiew")
     public ResponseEntity<?> saveRewiew(
