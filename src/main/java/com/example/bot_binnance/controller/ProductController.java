@@ -124,6 +124,7 @@ public class ProductController {
 						}
 					}
 				}
+				product.setSliders(sliderPaths);
 			}
 				
 			if(img != null) {
@@ -132,7 +133,7 @@ public class ProductController {
 					product.setImg(fileName);
 				}
 			}
-			product.setSliders(sliderPaths);
+			
 			ResultDto<Product> result = new ResultDto<>(200, "Save Product Review OK",
 			this.productService.saveOrUpdateProduct(product.getId(), product));
 			return ResponseEntity.ok(result);

@@ -88,6 +88,7 @@ public class ProductServiceImpl implements ProductService {
 	            existingProduct.setSale(productDetails.isSale());
 	            existingProduct.setRate(productDetails.getRate());
 	            existingProduct.setSliders(productDetails.getSliders());
+	            existingProduct.setRate(productDetails.getRate());
 	            return productRepository.save(existingProduct);
 	        }
 	    }
