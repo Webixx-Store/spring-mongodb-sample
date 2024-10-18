@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.example.bot_binnance.dto.DeliStatusType;
+
 @Document(collection = "orderDeli")
 public class OrderDeli {
 	
@@ -22,6 +24,10 @@ public class OrderDeli {
 	private String state;
 	private String city;
 	private String post;
+
+	
+	private DeliStatusType deliStatus;
+	
 	
 	private LocalDateTime createdAt = LocalDateTime.now();
 	
@@ -106,6 +112,14 @@ public class OrderDeli {
 	public void setCreatedUpd(LocalDateTime createdUpd) {
 		this.createdUpd = createdUpd;
 	}
+	public DeliStatusType getDeliStatus() {
+		return deliStatus;
+	}
+	public void setDeliStatus(DeliStatusType deliStatus) {
+		this.deliStatus = deliStatus;
+	}
+	
+	
 	
 	
 	
