@@ -24,7 +24,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws") // Endpoint cho server WebSocket
-                .setAllowedOrigins("http://localhost:4200" , "https://trade-coin-j2gg.onrender.com" , "http://localhost:4300") // Chỉ định nguồn gốc cho phép kết nối
+                .setAllowedOrigins("http://localhost:4200" , "https://trade-coin-j2gg.onrender.com" , "http://localhost:4300" , "https://auth-webixx.web.app") // Chỉ định nguồn gốc cho phép kết nối
                 .withSockJS(); // Sử dụng SockJS nếu cần thiết
     }
 
