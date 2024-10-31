@@ -125,6 +125,24 @@ public class ProductController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
     }
+    
+    @PostMapping("/upload")
+    public ResponseEntity<?> saveProduct(
+            @RequestPart(required = false) MultipartFile img) {
+		try {
+			String fileName = "";
+			if(img != null) {
+				fileName = this.saveImage(img);
+				if (fileName != null) {
+					 return ResponseEntity.ok(new ResultDto<>(200, "Save Product Review OK",fileName));
+				}
+			}
+			return ResponseEntity.ok(new ResultDto<>(500, "No file upload",""));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+    }
 
     
     private String saveImage(MultipartFile fileData)

@@ -32,7 +32,7 @@ public class WebsocketController {
 	
 	public ChatMessage chat(@DestinationVariable String roomId , ChatMessage message) {
 		System.out.println(message);
-		return new ChatMessage(message.getMessage(), message.getUser());
+		return new ChatMessage(message.getMessage(), message.getUser() , message.getImage());
 	}
 	
    
