@@ -9,12 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.example.bot_binnance.dto.ChatMessage;
+import com.example.bot_binnance.service.ContentGeneratorService;
 
 
 
 @Controller
 @CrossOrigin
 public class WebsocketController {
+	@Autowired ContentGeneratorService contentGeneratorService;
 	
 //	 @Autowired
 //    private PriceBroadcastService priceBroadcastService;
@@ -32,7 +34,13 @@ public class WebsocketController {
 	
 	public ChatMessage chat(@DestinationVariable String roomId , ChatMessage message) {
 		System.out.println(message);
-		return new ChatMessage(message.getMessage(), message.getUser() , message.getImage());
+		
+		if(roomId.equals("BOT") && message.getFlag()) {
+			String messString = contentGeneratorService.generateContent("AIzaSyCNHcjHExhYkmoIekWcwCKveNqd5i60yXs" , message.getMessage());
+			message.setUser("BOT_API");
+			message.setMessage(messString);
+		}
+		return new ChatMessage(message.getMessage(), message.getUser() , message.getImage() , message.getFlag());
 	}
 	
    
