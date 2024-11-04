@@ -35,7 +35,7 @@ public class WebsocketController {
 	public ChatMessage chat(@DestinationVariable String roomId , ChatMessage message) {
 		System.out.println(message);
 		
-		if(roomId.equals("BOT") && message.getFlag()) {
+		if(roomId.contains("bot")&& message.getFlag()) {
 			String messString = contentGeneratorService.generateContent("AIzaSyCNHcjHExhYkmoIekWcwCKveNqd5i60yXs" , message.getMessage());
 			message.setUser("BOT_API");
 			message.setMessage(messString);
