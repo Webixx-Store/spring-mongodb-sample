@@ -38,6 +38,8 @@ public class SecurityConfig {
                     .requestMatchers("/api/user/authenticate" 
                     		, "/api/user/save" 
                     		, "/api/binance/**" 
+                    		, "/api/products"
+                    		, "/api/products/**"
                     		, "/api/products/upload" 
                     		,"/upload/product/**"
                     		,"/ws/**")

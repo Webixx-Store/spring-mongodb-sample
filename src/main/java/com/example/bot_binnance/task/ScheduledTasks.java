@@ -65,10 +65,8 @@ public class ScheduledTasks {
     public void fetchData() {
         String url = "https://spring-mongodb-sample.onrender.com/";
         try {
-            String response = restTemplate.getForObject(url, String.class);
-            System.out.println("Response: " + response);
+            restTemplate.getForObject(url, String.class);
         } catch (Exception e) {
-            System.err.println("Error fetching data: " + e.getMessage());
         }
     }
 

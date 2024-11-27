@@ -8,24 +8,24 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import com.example.bot_binnance.service.TelegramBot;
 
-@Configuration
+//@Configuration
 public class TelegramBotConfig {
 
-    @Value("${telegram.bot.username}")
-    private String botUsername;
-
-    @Value("${telegram.bot.token}")
-    private String botToken;
-
-    @Bean
-    public TelegramBotsApi telegramBotsApi(TelegramBot telegramBot) throws TelegramApiException {
-        TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
-        telegramBotsApi.registerBot(telegramBot);
-        return telegramBotsApi;
-    }
-
-    @Bean
-    public TelegramBot telegramBot() {
-        return new TelegramBot(botUsername, botToken);
-    }
+//    @Value("${telegram.bot.username}")
+//    private String botUsername;
+//
+//    @Value("${telegram.bot.token}")
+//    private String botToken;
+//
+//    @Bean
+//    public TelegramBotsApi telegramBotsApi(TelegramBot telegramBot) throws TelegramApiException {
+//        TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+//        telegramBotsApi.registerBot(telegramBot);
+//        return telegramBotsApi;
+//    }
+//
+//    @Bean
+//    public TelegramBot telegramBot() {
+//        return new TelegramBot(botUsername, botToken);
+//    }
 }

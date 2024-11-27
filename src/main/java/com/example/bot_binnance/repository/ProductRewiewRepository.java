@@ -10,5 +10,6 @@ import com.example.bot_binnance.model.ProductRewiew;
 @Repository
 public interface ProductRewiewRepository  extends MongoRepository<ProductRewiew, String> {
 	 Page<ProductRewiew> findByProductid(String productid, Pageable pageable);
+	 long countByProductid(String productid);
 
 }

@@ -47,8 +47,11 @@ public class ProductController {
         List<Product> products = new ArrayList<Product>();
         products.add(product);
         Map<String, Object> response = new HashMap<>();
+        
+        long count = this.productService.countByProductId(id);
         response.put("products", products);
         response.put("totalCount",1);	
+        response.put("countRewiew", count);
         return ResponseEntity.ok(response);
     }
     

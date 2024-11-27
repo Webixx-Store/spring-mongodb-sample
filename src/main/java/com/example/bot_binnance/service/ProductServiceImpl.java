@@ -92,5 +92,10 @@ public class ProductServiceImpl implements ProductService {
 	            return productRepository.save(existingProduct);
 	        }
 	    }
+	    
+	    @Override
+	    public long countByProductId(String productId) {
+	    	return this.productRewiewRepository.countByProductid(productId);
+	    }
 
 }

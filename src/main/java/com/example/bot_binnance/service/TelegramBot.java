@@ -23,7 +23,7 @@ import ch.qos.logback.core.util.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+//@Component
 public class TelegramBot extends TelegramLongPollingBot {
 
     private final String botUsername;
