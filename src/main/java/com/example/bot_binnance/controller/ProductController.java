@@ -1,6 +1,7 @@
 package com.example.bot_binnance.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +14,7 @@ import com.example.bot_binnance.service.ProductService;
 import com.example.bot_binnance.service.StorageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -130,7 +132,7 @@ public class ProductController {
     }
     
     @PostMapping("/upload")
-    public ResponseEntity<?> saveProduct(
+    public ResponseEntity<?> upload(
             @RequestPart(required = false) MultipartFile img) {
 		try {
 			String fileName = "";
@@ -145,6 +147,46 @@ public class ProductController {
 			e.printStackTrace();
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
+    }
+    
+    @PostMapping("/upload-editor")
+    public ResponseEntity<?> uploadImage(@RequestParam("upload") MultipartFile file) throws Exception {
+        try {
+            String fileName = "";
+            if (file != null) {
+                fileName = this.saveImage(file);
+                if (fileName != null) {
+                    String fileUrl = "http://localhost:8888/" + fileName;
+                    
+                    Map<String, Object> response = new HashMap<>();
+                    response.put("uploaded", true);
+                    response.put("url", fileUrl);
+                    
+                    return ResponseEntity.ok(response);
+                }
+            }
+            
+            // Error response
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("uploaded", false);
+            errorResponse.put("error", new HashMap<String, String>() {{
+                put("message", "Could not upload file");
+            }});
+            
+            return ResponseEntity.badRequest().body(errorResponse);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            
+            // Error response
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("uploaded", false);
+            errorResponse.put("error", new HashMap<String, String>() {{
+                put("message", "Could not upload file: " + e.getMessage());
+            }});
+            
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
     }
 
     
