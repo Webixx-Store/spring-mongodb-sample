@@ -42,6 +42,7 @@ public class SecurityConfig {
                     		, "/api/products/**"
                     		, "/api/products/upload" 
                     		,"/upload/product/**"
+                    		,"/api/blogs/**"
                     		,"/ws/**")
                     .permitAll()
                     .anyRequest().authenticated()

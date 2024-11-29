@@ -156,7 +156,8 @@ public class ProductController {
             if (file != null) {
                 fileName = this.saveImage(file);
                 if (fileName != null) {
-                    String fileUrl = "http://localhost:8888/" + fileName;
+                    //String fileUrl = "http://localhost:8888/" + fileName;
+                    String fileUrl = "https://spring-mongodb-sample.onrender.com/" + fileName;
                     
                     Map<String, Object> response = new HashMap<>();
                     response.put("uploaded", true);
