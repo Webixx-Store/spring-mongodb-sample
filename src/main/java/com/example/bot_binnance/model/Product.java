@@ -25,10 +25,13 @@ public class Product {
     private int stock;
     private String img;
     private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime updateAt = LocalDateTime.now();
     private boolean isBest = false;
     private boolean isNew = false;
     private boolean isSale  = false;
     private List<String > sliders;
+    private String location;
+    private String keyword;
     public String getId() {
         return id;
     }
@@ -132,5 +135,34 @@ public class Product {
 	public void setSliders(List<String> sliders) {
 		this.sliders = sliders;
 	}
+
+	public LocalDateTime getUpdateAt() {
+		return updateAt;
+	}
+
+	public void setUpdateAt(LocalDateTime updateAt) {
+		this.updateAt = updateAt;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+	
+	
+	
+	
+	
     
 }
