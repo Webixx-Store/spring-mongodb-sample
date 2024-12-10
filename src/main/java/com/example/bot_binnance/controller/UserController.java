@@ -97,6 +97,18 @@ public class UserController {
         user.setJwt(jwt);
         return ResponseEntity.ok(user);
     }
+    
+    @PostMapping("saveMenu")
+    public ResponseEntity<ResultDto<User>> saveMenu(@Valid @RequestBody User user) {
+        try {
+            User savedUser = userService.saveOrUpdateUser(user);
+            ResultDto<User> result = new ResultDto<>(200, "Save Member OK", savedUser);
+            return CommonUtils.RESULT_OK(result);
+        } catch (Exception e) {
+        	 ResultDto<User> result = new ResultDto<>(200, "save Fail", null);
+        	 return CommonUtils.RESULT_ERROR(result);
+        }
+    }
 
     // Các endpoint khác
 }

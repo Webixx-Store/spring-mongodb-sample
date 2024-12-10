@@ -2,6 +2,7 @@ package com.example.bot_binnance.service;
 
 import java.util.Optional;
 
+import com.example.bot_binnance.model.Menu;
 import com.example.bot_binnance.model.User;
 
 public interface UserService {
@@ -10,4 +11,6 @@ public interface UserService {
 	 
 	 Optional<User> findByEmail(String email);
 	 Optional<User> findByToken(String token);
+	 
+	 public Menu saveMenu(Menu menu);
 }

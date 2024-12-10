@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.bot_binnance.model.Menu;
 import com.example.bot_binnance.model.User;
+import com.example.bot_binnance.repository.MenuRepository;
 import com.example.bot_binnance.repository.UserRepository;
 @Service
 public class UserServiceImpl implements UserService{
@@ -16,6 +18,10 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private MenuRepository menuRepository;
+	
 	@Override
 	public Optional<User> findByEmailGetLogin(String email, String password) {
 		 Optional<User> user = userRepository.findByEmailOrId(email ,email );
@@ -88,6 +94,13 @@ public class UserServiceImpl implements UserService{
 	public Optional<User> findByToken(String token) {
 		// TODO Auto-generated method stub
 		 return userRepository.findByToken(token);
+	}
+
+
+	@Override
+	public Menu saveMenu(Menu menu) {
+		// TODO Auto-generated method stub
+	    return this.menuRepository.save(menu);
 	}
 
 

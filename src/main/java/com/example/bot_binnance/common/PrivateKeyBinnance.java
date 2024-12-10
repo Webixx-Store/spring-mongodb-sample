@@ -34,7 +34,7 @@ public class PrivateKeyBinnance {
 
 		public static double LAVERAGE = 125d;
 		
-		public static  String timeFrame= "1m";
+		public static  String timeFrame= "1h";
 	    
 	    public static String generateOrderId() {
 	        // Lấy ngày và giờ hiện tại

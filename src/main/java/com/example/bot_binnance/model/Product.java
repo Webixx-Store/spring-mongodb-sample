@@ -19,6 +19,7 @@ public class Product {
     @NotBlank(message = "Product name is mandatory")
     private String name;
     private String description;
+    private String priceTxt;
     private double price;
     private double rate;
     private String category;
@@ -132,5 +133,14 @@ public class Product {
 	public void setSliders(List<String> sliders) {
 		this.sliders = sliders;
 	}
+
+	public String getPriceTxt() {
+		return priceTxt;
+	}
+
+	public void setPriceTxt(String priceTxt) {
+		this.priceTxt = priceTxt;
+	}
+	
     
 }
