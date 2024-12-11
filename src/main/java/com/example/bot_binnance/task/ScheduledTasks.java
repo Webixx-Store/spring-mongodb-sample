@@ -92,32 +92,9 @@ public class ScheduledTasks {
         String today = now.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
         
         try {
-            // Giao tiếp với Binance để lấy thông tin giá
-            UMFuturesClientImpl client = new UMFuturesClientImpl(
-                PrivateKeyBinnance.API_KEY,
-                PrivateKeyBinnance.SECRET_KEY,
-                PrivateKeyBinnance.UM_BASE_URL
-            );
-
-            LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
-            parameters.put("symbol", PrivateKeyBinnance.SYMBOL);
-            parameters.put("interval", "1h"); // Khung thời gian là mỗi 1 giờ
-            parameters.put("limit", 200); // Lấy 200 mẫu dữ liệu gần nhất
-
-            // Lấy thông tin giá từ Binance
-            String result = client.market().klines(parameters);
-
-            // Dữ liệu các mức giá được parse từ Binance Klines response
-            List<Double> closePrices = parseClosePrices(result);
-            
-            if (closePrices.isEmpty()) {
-                System.err.println("Không tìm thấy thông tin giá từ Binance.");
-                return;
-            }
             
             String content =  restTemplate.getForObject("https://python-fk3x.onrender.com/analyze", String.class);
 
-           
             String content2 = contentGeneratorService.generateContent(
                     "AIzaSyCNHcjHExhYkmoIekWcwCKveNqd5i60yXs", 
                     "làm ơn hãy phân tích dữ liệu này:"   + content  + " thành 1 bài báo html có font chữ to và phải rõ ràng và không chứa thẻ <html> để tôi inner nó trong thẻ div sử dụng trong angular" 
