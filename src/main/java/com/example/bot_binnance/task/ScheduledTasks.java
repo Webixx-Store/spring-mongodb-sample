@@ -1,6 +1,8 @@
 package com.example.bot_binnance.task;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -84,7 +86,10 @@ public class ScheduledTasks {
     }
     
     public void generateDailyContent() {
-        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh"));
+        
+        // Định dạng theo kiểu dd/MM/yyyy HH:mm
+        String today = now.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
         
         try {
             // Giao tiếp với Binance để lấy thông tin giá
@@ -109,29 +114,20 @@ public class ScheduledTasks {
                 System.err.println("Không tìm thấy thông tin giá từ Binance.");
                 return;
             }
-
-            // Tạo thông tin cho nội dung bài viết dựa trên thông tin giá
-            Double averagePrice = calculateAverage(closePrices);
-            Double latestPrice = closePrices.get(closePrices.size() - 1);
-
-            String prompt = createPrompt(averagePrice, latestPrice, closePrices);
-
-            // Bot AI service tạo nội dung
-            String content = contentGeneratorService.generateContent(
-                "AIzaSyCNHcjHExhYkmoIekWcwCKveNqd5i60yXs", 
-                prompt
-            );
             
+            String content =  restTemplate.getForObject("https://python-fk3x.onrender.com/analyze", String.class);
+
+           
             String content2 = contentGeneratorService.generateContent(
                     "AIzaSyCNHcjHExhYkmoIekWcwCKveNqd5i60yXs", 
-                    "làm ơn hãy viết nội dung này "   + prompt  + " thành 1 bài báo html chỉ chứa các thẻ text để tôi inner nó trong thẻ div sử dụng trong angular" 
+                    "làm ơn hãy phân tích dữ liệu này:"   + content  + " thành 1 bài báo html có font chữ to và phải rõ ràng và không chứa thẻ <html> để tôi inner nó trong thẻ div sử dụng trong angular" 
                 );
 
             if (content != null && !content.isEmpty()) {
                 Blog blog = new Blog();
-                blog.setTitle("Cập nhật thông tin về Bitcoin hôm nay + " + today);
+                blog.setTitle("Cập nhật thông tin về Bitcoin ngày " + today);
                 blog.setContent(content2);
-                blog.setAuthor("bot_google");
+                blog.setAuthor("bot_google_auto_4h");
 
                 // Lưu thông tin bài viết
                 blogService.saveBlog(blog);
