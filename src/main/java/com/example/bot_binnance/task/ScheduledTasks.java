@@ -97,7 +97,7 @@ public class ScheduledTasks {
 
             String content2 = contentGeneratorService.generateContent(
                     "AIzaSyCNHcjHExhYkmoIekWcwCKveNqd5i60yXs", 
-                    "làm ơn hãy phân tích dữ liệu này:"   + content  + " thành 1 bài báo html có font chữ to và phải rõ ràng và không chứa thẻ <html> để tôi inner nó trong thẻ div sử dụng trong angular" 
+                    "làm ơn hãy phân tích chi tiết cụ thể  từng chỉ báo của dữ liệu này:"   + content  + " thành 1 bài báo html có font chữ to và phải rõ ràng và không chứa thẻ <html> để tôi inner nó trong thẻ div và trên bài báo phải nêu rõ được xu thế thị trường phân tích giá và xu hướng thị trường 1 cách chi tiết  phần kết luận bạn nên làm to và rõ ràng nổi bật hơn các phần khác	" 
                 );
 
             if (content != null && !content.isEmpty()) {
