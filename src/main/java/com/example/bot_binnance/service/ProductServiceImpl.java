@@ -1,6 +1,7 @@
 package com.example.bot_binnance.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -12,14 +13,19 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.bot_binnance.dto.ProductRewiewDto;
+import com.example.bot_binnance.model.Category;
 import com.example.bot_binnance.model.Product;
 import com.example.bot_binnance.model.ProductRewiew;
+import com.example.bot_binnance.repository.CategoryRepository;
 import com.example.bot_binnance.repository.ProductRepository;
 import com.example.bot_binnance.repository.ProductRewiewRepository;
 
 
 @Service
 public class ProductServiceImpl implements ProductService {
+	
+	    @Autowired
+	    private CategoryRepository categoryRepository;
 
 	    @Autowired
 	    private ProductRepository productRepository;
@@ -97,6 +103,33 @@ public class ProductServiceImpl implements ProductService {
 	    @Override
 	    public long countByProductId(String productId) {
 	    	return this.productRewiewRepository.countByProductid(productId);
+	    }
+	    
+	    @Override
+	    public Category saveOrUpdateCategory(Category category) {
+	        return categoryRepository.save(category);
+	    }
+
+	    // Get all categories
+	    @Override
+	    public List<Category> getAllCategories() {
+	        return categoryRepository.findAll();
+	    }
+
+	    // Get category by ID
+	    @Override
+	    public Category getCategoryById(String id) {
+	        Optional<Category> optionalCategory = categoryRepository.findById(id);
+	        return optionalCategory.orElseThrow(() -> new RuntimeException("Category not found with ID: " + id));
+	    }
+
+	    // Delete category by ID
+	    @Override
+	    public void deleteCategory(String id) {
+	        if (!categoryRepository.existsById(id)) {
+	            throw new RuntimeException("Category not found with ID: " + id);
+	        }
+	        categoryRepository.deleteById(id);
 	    }
 
 }

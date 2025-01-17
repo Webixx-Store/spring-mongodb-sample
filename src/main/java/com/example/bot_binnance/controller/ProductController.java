@@ -3,11 +3,13 @@ package com.example.bot_binnance.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.bot_binnance.dto.ProductRewiewDto;
 import com.example.bot_binnance.dto.ResultDto;
+import com.example.bot_binnance.model.Category;
 import com.example.bot_binnance.model.Product;
 import com.example.bot_binnance.model.ProductRewiew;
 import com.example.bot_binnance.service.ProductService;
@@ -188,6 +190,45 @@ public class ProductController {
             
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
+    }
+    
+    
+    @PostMapping("/categories")
+    public  ResponseEntity<?> saveOrUpdateCategory(@Validated @RequestPart(required = false) String category) {
+      try {
+    	  
+    	  ObjectMapper objectMapper = new ObjectMapper();
+    	  Category categoryRequest = objectMapper.readValue(category, Category.class);
+    	  Category savedCategory = productService.saveOrUpdateCategory(categoryRequest);
+    	  
+    	  ResultDto<Category> result = new ResultDto<>(200, "Save Product Review OK",savedCategory);
+          return ResponseEntity.ok(result);
+	} catch (Exception e) {
+		// TODO: handle exception
+		e.printStackTrace();
+		return null;
+	}
+    }
+
+    // Get all categories
+    @GetMapping("/categories/all")
+    public ResponseEntity<List<Category>> getAllCategories() {
+        List<Category> categories = productService.getAllCategories();
+        return ResponseEntity.ok(categories);
+    }
+
+    // Get category by ID
+    @GetMapping("/categories/{id}")
+    public ResponseEntity<Category> getCategoryById(@PathVariable String id) {
+        Category category = productService.getCategoryById(id);
+        return ResponseEntity.ok(category);
+    }
+
+    // Delete category by ID
+    @DeleteMapping("/categories/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable String id) {
+    	productService.deleteCategory(id);
+        return ResponseEntity.noContent().build();
     }
 
     
