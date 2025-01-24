@@ -16,7 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // Allow all endpoints
-                        .allowedOrigins("http://localhost:4200" , "http://192.168.40.45:4200" , "http://localhost:4300" , "https://auth-webixx.web.app" , "https://dattot-vn.web.app" , "https://cryptovuive.web.app") // Allow specific origin
+                        .allowedOrigins("http://localhost:4200" , "http://192.168.40.45:4200" , "http://localhost:4300" , "https://auth-webixx.web.app" , "https://dattot-vn.web.app" , "https://cryptovuive.web.app" , "https://minhminh-kalivisa.web.app") // Allow specific origin
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow specific HTTP methods
                         .allowedHeaders("*") // Allow all headers
                         .allowCredentials(true); // Allow credentials (cookies, etc.)
