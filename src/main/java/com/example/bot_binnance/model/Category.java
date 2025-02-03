@@ -2,6 +2,8 @@ package com.example.bot_binnance.model;
 
 
 
+import java.time.LocalDateTime;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -26,6 +28,9 @@ public class Category {
     private String status = "active";
 
     private String imageUrl;
+    
+    private LocalDateTime createdAt ;
+    private LocalDateTime updateAt = LocalDateTime.now();
 
     @NotNull(message = "Sort number is required")
     @Min(value = 0, message = "Sort number must be at least 0")
@@ -88,4 +93,22 @@ public class Category {
     public void setSortNo(Integer sortNo) {
         this.sortNo = sortNo;
     }
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdateAt() {
+		return updateAt;
+	}
+
+	public void setUpdateAt(LocalDateTime updateAt) {
+		this.updateAt = updateAt;
+	}
+    
+    
 }

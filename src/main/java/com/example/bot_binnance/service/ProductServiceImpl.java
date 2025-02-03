@@ -1,5 +1,6 @@
 package com.example.bot_binnance.service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,6 +108,10 @@ public class ProductServiceImpl implements ProductService {
 	    
 	    @Override
 	    public Category saveOrUpdateCategory(Category category) {
+	    	Optional<Category> optionalCategory = this.categoryRepository.findById(category.getId());
+        	if(!optionalCategory.isPresent()) {
+        		category.setCreatedAt(LocalDateTime.now());
+        	}
 	        return categoryRepository.save(category);
 	    }
 

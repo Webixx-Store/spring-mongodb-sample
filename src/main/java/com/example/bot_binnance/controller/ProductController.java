@@ -194,14 +194,21 @@ public class ProductController {
     
     
     @PostMapping("/categories")
-    public  ResponseEntity<?> saveOrUpdateCategory(@Validated @RequestPart(required = false) String category) {
+    public  ResponseEntity<?> saveOrUpdateCategory(@Validated @RequestPart(required = false) String category ,
+    		@RequestPart(required = false) MultipartFile img) {
       try {
     	  
     	  ObjectMapper objectMapper = new ObjectMapper();
     	  Category categoryRequest = objectMapper.readValue(category, Category.class);
+    	  if(img != null) {
+				String fileName = this.saveImage(img);
+				if (fileName != null) {
+					categoryRequest.setImageUrl(fileName);
+				}
+			}
     	  Category savedCategory = productService.saveOrUpdateCategory(categoryRequest);
     	  
-    	  ResultDto<Category> result = new ResultDto<>(200, "Save Product Review OK",savedCategory);
+    	  ResultDto<Category> result = new ResultDto<>(200, "Save Cate OK",savedCategory);
           return ResponseEntity.ok(result);
 	} catch (Exception e) {
 		// TODO: handle exception
