@@ -1,12 +1,13 @@
 package com.example.bot_binnance.service;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.example.bot_binnance.model.Blog;
 
 
 public interface BlogService {
-	List<Blog> getAllBlogs();
+	Map<String, Object> getAllBlogs(int page , int len);
 
     Optional<Blog> getBlogById(String id);
 

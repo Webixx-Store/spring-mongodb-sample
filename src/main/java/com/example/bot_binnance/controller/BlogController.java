@@ -1,6 +1,7 @@
 package com.example.bot_binnance.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.bot_binnance.common.CommonUtils;
 import com.example.bot_binnance.model.Blog;
 import com.example.bot_binnance.service.BlogService;
 import java.util.Optional;
@@ -26,8 +29,17 @@ public class BlogController {
 
     // Hiển thị danh sách tất cả các blog
     @GetMapping("/all")
-    public List<Blog> getAllBlogs() {
-        return blogService.getAllBlogs();
+    public ResponseEntity<?> getAllBlogs( @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int len) {
+    	try {
+    		 Map<String, Object> response = blogService.getAllBlogs(page, len);
+    		 return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			HttpStatus status = CommonUtils.determineHttpStatus(e); 
+			return ResponseEntity.status(status).body(Map.of("error", e.getMessage()));
+		}
+    	
+    	
     }
 
     // Hiển thị chi tiết một blog theo ID
