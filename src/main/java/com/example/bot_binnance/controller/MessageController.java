@@ -25,7 +25,7 @@ public class MessageController {
     // API lấy tin nhắn theo userId
     @GetMapping("/{userId}")
     public List<Message> getMessagesByUserId(@PathVariable String userId,@RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int len) {
+            @RequestParam(defaultValue = "100") int len) {
         return messageService.getMessagesByUserId(userId , page, len);
     }
     

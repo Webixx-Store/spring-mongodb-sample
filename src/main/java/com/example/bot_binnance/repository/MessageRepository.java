@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MessageRepository extends MongoRepository<Message, String> {
-	 Page<Message> findByUserIdOrderByCreatedAtAsc(String userId, Pageable pageable);
+	 Page<Message> findByUserIdOrderByCreatedAtDesc(String userId, Pageable pageable);
 
 	 @Aggregation(pipeline = {
 			    "{ $sort: { createdAt: -1 } }", // Sắp xếp giảm dần theo thời gian để tin nhắn mới nhất lên đầu

@@ -23,7 +23,7 @@ public class MessageServiceImpl implements MessageService{
     // Lấy danh sách tin nhắn theo userId (mới nhất trước)
 	@Override
     public List<Message> getMessagesByUserId(String userId , int page , int size) {
-    	  return messageRepository.findByUserIdOrderByCreatedAtAsc(userId, PageRequest.of(page, size)).getContent();
+    	  return messageRepository.findByUserIdOrderByCreatedAtDesc(userId, PageRequest.of(page, size)).getContent();
     
     }
 
