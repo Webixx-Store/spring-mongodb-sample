@@ -113,8 +113,8 @@ public class ProductServiceImpl implements ProductService {
 	    
 	    @Override
 	    public Category saveOrUpdateCategory(Category category) {
-	    	Optional<Category> optionalCategory = this.categoryRepository.findById(category.getId());
-        	if(!optionalCategory.isPresent()) {
+	    
+        	if(category.getId() == null) {
         		category.setCreatedAt(LocalDateTime.now());
         	}
 	        return categoryRepository.save(category);
