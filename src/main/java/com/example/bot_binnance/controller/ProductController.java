@@ -248,11 +248,97 @@ public class ProductController {
     private String saveImage(MultipartFile fileData)
             throws Exception {
         if (fileData != null && !fileData.isEmpty()) {
-        	 byte[] bytes = fileData.getBytes();
-             String base64Image = Base64.getEncoder().encodeToString(bytes);
+        	if (fileData != null && !fileData.isEmpty()) {
+        	    byte[] bytes = fileData.getBytes();
+        	    String base64Image = Base64.getEncoder().encodeToString(bytes);
+        	    
+        	    String contentType = fileData.getContentType();
+        	    String dataUrl = "";
+        	    
+        	    // Thêm prefix dựa vào loại file
+        	    if (contentType != null) {
+        	        switch(contentType.toLowerCase()) {
+        	            // Images
+        	            case "image/jpeg":
+        	            case "image/jpg":
+        	                dataUrl = "data:image/jpeg;base64," + base64Image;
+        	                break;
+        	            case "image/png":
+        	                dataUrl = "data:image/png;base64," + base64Image;
+        	                break;
+        	            case "image/gif":
+        	                dataUrl = "data:image/gif;base64," + base64Image;
+        	                break;
+        	            case "image/webp":
+        	                dataUrl = "data:image/webp;base64," + base64Image;
+        	                break;
+        	            case "image/svg+xml":
+        	                dataUrl = "data:image/svg+xml;base64," + base64Image;
+        	                break;
+        	                
+        	            // Documents
+        	            case "application/pdf":
+        	                dataUrl = "data:application/pdf;base64," + base64Image;
+        	                break;
+        	            case "application/msword":
+        	                dataUrl = "data:application/msword;base64," + base64Image;
+        	                break;
+        	            case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+        	                dataUrl = "data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64," + base64Image;
+        	                break;
+        	            case "application/vnd.ms-excel":
+        	                dataUrl = "data:application/vnd.ms-excel;base64," + base64Image;
+        	                break;
+        	            case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+        	                dataUrl = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + base64Image;
+        	                break;
+        	                
+        	            // Audio
+        	            case "audio/mpeg":
+        	                dataUrl = "data:audio/mpeg;base64," + base64Image;
+        	                break;
+        	            case "audio/wav":
+        	                dataUrl = "data:audio/wav;base64," + base64Image;
+        	                break;
+        	            case "audio/mp3":
+        	                dataUrl = "data:audio/mp3;base64," + base64Image;
+        	                break;
+        	                
+        	            // Video
+        	            case "video/mp4":
+        	                dataUrl = "data:video/mp4;base64," + base64Image;
+        	                break;
+        	            case "video/webm":
+        	                dataUrl = "data:video/webm;base64," + base64Image;
+        	                break;
+        	            case "video/mpeg":
+        	                dataUrl = "data:video/mpeg;base64," + base64Image;
+        	                break;
+        	                
+        	            // Text
+        	            case "text/plain":
+        	                dataUrl = "data:text/plain;base64," + base64Image;
+        	                break;
+        	            case "text/html":
+        	                dataUrl = "data:text/html;base64," + base64Image;
+        	                break;
+        	            case "text/css":
+        	                dataUrl = "data:text/css;base64," + base64Image;
+        	                break;
+        	            case "text/javascript":
+        	                dataUrl = "data:text/javascript;base64," + base64Image;
+        	                break;
+        	                
+        	            default:
+        	                dataUrl = "data:application/octet-stream;base64," + base64Image; // Default binary file
+        	        }
+        	    }
+        	    
+        	    return dataUrl;
+        	}
 //	          String fileName = storageService.store(fileData, "product");
 //	          return PATH_URL + fileName;
-             return base64Image;
+             
 			 
         }
         return "";
