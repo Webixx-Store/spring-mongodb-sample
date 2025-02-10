@@ -249,10 +249,10 @@ public class ProductController {
         if (fileData != null && !fileData.isEmpty()) {
         	
 
-			  String fileNameApi = imageUploadService.uploadImage(fileData.getName(), fileData);
-			  return fileNameApi;
-//            String fileName = storageService.store(fileData, "product");
-//            return PATH_URL + fileName;
+//			  String fileNameApi = imageUploadService.uploadImage(fileData.getName(), fileData);
+//			  return fileNameApi;
+	          String fileName = storageService.store(fileData, "product");
+	          return PATH_URL + fileName;
 			 
         }
         return "";
