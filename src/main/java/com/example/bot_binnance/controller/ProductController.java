@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -247,12 +248,11 @@ public class ProductController {
     private String saveImage(MultipartFile fileData)
             throws Exception {
         if (fileData != null && !fileData.isEmpty()) {
-        	
-
-//			  String fileNameApi = imageUploadService.uploadImage(fileData.getName(), fileData);
-//			  return fileNameApi;
-	          String fileName = storageService.store(fileData, "product");
-	          return PATH_URL + fileName;
+        	 byte[] bytes = fileData.getBytes();
+             String base64Image = Base64.getEncoder().encodeToString(bytes);
+//	          String fileName = storageService.store(fileData, "product");
+//	          return PATH_URL + fileName;
+             return base64Image;
 			 
         }
         return "";
