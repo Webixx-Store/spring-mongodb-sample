@@ -12,6 +12,7 @@ import com.example.bot_binnance.dto.ResultDto;
 import com.example.bot_binnance.model.Category;
 import com.example.bot_binnance.model.Product;
 import com.example.bot_binnance.model.ProductRewiew;
+import com.example.bot_binnance.service.ImageUploadService;
 import com.example.bot_binnance.service.ProductService;
 import com.example.bot_binnance.service.StorageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,6 +33,10 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+    
+    
+    @Autowired 
+    private ImageUploadService imageUploadService;
 
     @GetMapping
     public ResponseEntity<?> getAllProducts(
@@ -242,8 +247,13 @@ public class ProductController {
     private String saveImage(MultipartFile fileData)
             throws Exception {
         if (fileData != null && !fileData.isEmpty()) {
-            String fileName = storageService.store(fileData, "product");
-            return PATH_URL + fileName;
+        	
+
+			  String fileNameApi = imageUploadService.uploadImage(fileData.getName(), fileData);
+			  return fileNameApi;
+//            String fileName = storageService.store(fileData, "product");
+//            return PATH_URL + fileName;
+			 
         }
         return "";
     }

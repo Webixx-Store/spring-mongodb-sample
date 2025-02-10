@@ -33,6 +33,11 @@ public class Product {
     private List<String > sliders;
     private String location;
     private String keyword;
+    private String timeDate;
+    private String services;
+    
+    private String visaType;
+    private String content;
     public String getId() {
         return id;
     }
@@ -167,6 +172,38 @@ public class Product {
 
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+
+	public String getVisaType() {
+		return visaType;
+	}
+
+	public void setVisaType(String visaType) {
+		this.visaType = visaType;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getTimeDate() {
+		return timeDate;
+	}
+
+	public void setTimeDate(String timeDate) {
+		this.timeDate = timeDate;
+	}
+
+	public String getServices() {
+		return services;
+	}
+
+	public void setServices(String services) {
+		this.services = services;
 	}
 	
     

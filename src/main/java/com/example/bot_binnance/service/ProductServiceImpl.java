@@ -97,6 +97,11 @@ public class ProductServiceImpl implements ProductService {
 	            existingProduct.setRate(productDetails.getRate());
 	            existingProduct.setSliders(productDetails.getSliders());
 	            existingProduct.setRate(productDetails.getRate());
+	            existingProduct.setContent(productDetails.getContent());
+	            existingProduct.setKeyword(productDetails.getKeyword());
+	            existingProduct.setVisaType(productDetails.getVisaType());
+	            existingProduct.setServices(productDetails.getServices());
+	            existingProduct.setTimeDate(productDetails.getTimeDate());
 	            return productRepository.save(existingProduct);
 	        }
 	    }
