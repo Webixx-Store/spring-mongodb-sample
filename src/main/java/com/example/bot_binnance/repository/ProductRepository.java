@@ -12,9 +12,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductRepository extends MongoRepository<Product, String> {
 	@Query("{'$and': ["
-            + "{'$or': ["
-            + "{'name': {$regex: ?0, $options: 'i'}},"
-            + "{'category': ?1}"
-            + "]}]}")
-    Page<Product> searchProducts(String name, String category, Pageable pageable);
+			+ "{'name': {$regex: ?0, $options: 'i'}},"
+			+ "{'category': ?1}"
+			+ "]}")
+	Page<Product> searchProducts(String name, String category, Pageable pageable);
+	
+	Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
 }

@@ -40,9 +40,12 @@ public class ProductServiceImpl implements ProductService {
 	        
 	        String name = params.getOrDefault("name", "");
 	        String category = params.getOrDefault("category", "");
-
-	        Page<Product> products = productRepository.searchProducts(name, category, pageable);
-
+	        Page<Product> products;
+	        if (category == null || category.isEmpty()) {
+	           products = productRepository.findByNameContainingIgnoreCase(name, pageable);
+	        } else {
+	        	products = productRepository.searchProducts(name, category, pageable);
+	        }
 	        Map<String, Object> response = new HashMap<>();
 	        response.put("products", products.getContent());
 	        response.put("totalCount", products.getTotalElements());
