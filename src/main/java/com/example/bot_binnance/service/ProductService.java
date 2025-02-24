@@ -11,7 +11,7 @@ import com.example.bot_binnance.model.Product;
 import com.example.bot_binnance.model.ProductRewiew;
 
 public interface ProductService {
-	public  Map<String, Object> getAllProducts(int page, int size);
+	public  Map<String, Object> getAllProducts(int page, int size ,  Map<String, String> params);
 	public Product getProductById(String id);
 	ProductRewiew saveProductRewiew(ProductRewiewDto dto);
 	Map<String, Object> getAllProductRewiew(String productid, int page, int size);
