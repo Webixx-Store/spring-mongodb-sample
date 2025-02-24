@@ -112,15 +112,17 @@ public class ProductController {
 			Product product = objectMapper.readValue(productRequest, Product.class);
 			
 			List<String> sliderOld = new ArrayList<>();
-			if(product.getSliders().size() > 0) {
+			List<String> sliderPaths = new ArrayList<>();
+			if (product.getSliders() != null && !product.getSliders().isEmpty()) {
 				for (String slider : product.getSliders()) {
 					if(slider.contains("upload/product")) {
 						sliderOld.add(slider);
 					}
 				}
+				sliderPaths = sliderOld;
 			}
-			List<String> sliderPaths = new ArrayList<>();
-			sliderPaths = sliderOld;
+			
+			
 			if (sliders != null) {
 				for (MultipartFile slider : sliders) {
 					if (slider != null) {
