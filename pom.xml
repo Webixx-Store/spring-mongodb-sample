@@ -126,6 +126,16 @@
 	        <artifactId>core</artifactId>
 	        <version>4.9.5</version>
 	    </dependency>
+	    
+	    <dependency>
+		    <groupId>weka</groupId>
+		    <artifactId>weka</artifactId>
+		    <version>3.8.5</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/libs/weka.jar</systemPath>
+		</dependency>
+
+
 
 	</dependencies>
 

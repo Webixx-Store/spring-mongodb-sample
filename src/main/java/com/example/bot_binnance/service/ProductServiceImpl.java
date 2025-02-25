@@ -35,15 +35,22 @@ public class ProductServiceImpl implements ProductService {
 	    private ProductRewiewRepository productRewiewRepository;
 
 	    @Override
-	    public Map<String, Object> getAllProducts(int page, int size) {
-	    	 Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("updatedAt")));
-	          Page<Product> products = productRepository.findAll(pageable);
+	    public Map<String, Object> getAllProducts(int page, int size, Map<String, String> params) {
+	        Pageable pageable = PageRequest.of(page, size);
+	        
+	        String name = params.getOrDefault("name", "");
+	        String category = params.getOrDefault("category", "");
+	        Page<Product> products;
+	        if (category == null || category.isEmpty()) {
+	           products = productRepository.findByNameContainingIgnoreCase(name, pageable);
+	        } else {
+	        	products = productRepository.searchProducts(name, category, pageable);
+	        }
+	        Map<String, Object> response = new HashMap<>();
+	        response.put("products", products.getContent());
+	        response.put("totalCount", products.getTotalElements());
 
-	          Map<String, Object> response = new HashMap<>();
-	          response.put("products", products.getContent());
-	          response.put("totalCount", products.getTotalElements());
-
-	          return response;
+	        return response;
 	    }
 	    
 	    @Override
@@ -123,7 +130,7 @@ public class ProductServiceImpl implements ProductService {
 	    // Get all categories
 	    @Override
 	    public List<Category> getAllCategories() {
-	        return categoryRepository.findAll();
+	    	return categoryRepository.findAll(Sort.by(Sort.Direction.DESC, "sortNo"));
 	    }
 
 	    // Get category by ID
