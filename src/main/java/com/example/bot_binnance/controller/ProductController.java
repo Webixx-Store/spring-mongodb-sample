@@ -12,12 +12,14 @@ import com.example.bot_binnance.dto.ResultDto;
 import com.example.bot_binnance.model.Category;
 import com.example.bot_binnance.model.Product;
 import com.example.bot_binnance.model.ProductRewiew;
+import com.example.bot_binnance.service.CloudinaryImageManager;
 import com.example.bot_binnance.service.ImageUploadService;
 import com.example.bot_binnance.service.ProductService;
 import com.example.bot_binnance.service.StorageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
@@ -34,6 +36,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+    
+    @Autowired
+    private CloudinaryImageManager  cloudinaryImageManager ;
     
     
     @Autowired 
@@ -177,7 +182,7 @@ public class ProductController {
                 fileName = this.saveImage(file);
                 if (fileName != null) {
                     //String fileUrl = "http://localhost:8888/" + fileName;
-                    String fileUrl = "https://spring-mongodb-sample.onrender.com/" + fileName;
+                    String fileUrl =  fileName;
                     
                     Map<String, Object> response = new HashMap<>();
                     response.put("uploaded", true);
@@ -257,11 +262,30 @@ public class ProductController {
     }
 
     
-    private String saveImage(MultipartFile fileData)
-            throws Exception {
+//    private String saveImage(MultipartFile fileData)
+//            throws Exception {
+//        if (fileData != null && !fileData.isEmpty()) {
+//	          String fileName = storageService.store(fileData, "product");
+//	          return PATH_URL + fileName;
+//        }
+//        return "";
+//    }
+    private String saveImage(MultipartFile fileData) throws Exception {
         if (fileData != null && !fileData.isEmpty()) {
-	          String fileName = storageService.store(fileData, "product");
-	          return PATH_URL + fileName;
+            try (InputStream inputStream = fileData.getInputStream()) {
+                // Upload image to Cloudinary using InputStream
+                Map<String, Object> uploadResult = cloudinaryImageManager.uploadLargeImage(inputStream, fileData.getOriginalFilename());
+                
+                if (uploadResult != null) {
+                    // Get the public_id for the uploaded image
+                    String publicId = (String) uploadResult.get("public_id");
+                    
+                    // Return the URL to the uploaded image
+                    return cloudinaryImageManager.getImageUrl(publicId); // Return the URL to the uploaded image
+                }
+            } catch (IOException e) {
+                System.err.println("Error processing uploaded image: " + e.getMessage());
+            }
         }
         return "";
     }
