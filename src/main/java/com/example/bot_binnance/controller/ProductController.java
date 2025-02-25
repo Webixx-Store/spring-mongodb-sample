@@ -276,12 +276,10 @@ public class ProductController {
                 // Upload image to Cloudinary using InputStream
                 Map<String, Object> uploadResult = cloudinaryImageManager.uploadLargeImage(inputStream, fileData.getOriginalFilename());
                 
-                if (uploadResult != null) {
-                    // Get the public_id for the uploaded image
-                    String publicId = (String) uploadResult.get("public_id");
-                    
+                if (uploadResult != null) {                    
                     // Return the URL to the uploaded image
-                    return cloudinaryImageManager.getImageUrl(publicId); // Return the URL to the uploaded image
+                	String secureUrl = (String) uploadResult.get("secure_url");
+                    return secureUrl; // Return the URL to the uploaded image
                 }
             } catch (IOException e) {
                 System.err.println("Error processing uploaded image: " + e.getMessage());
