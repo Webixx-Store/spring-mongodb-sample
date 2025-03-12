@@ -86,8 +86,8 @@ public class TelegramBot extends TelegramLongPollingBot {
             		//Double price =  this.createOrder("BUY");
             		
             		List<Double> prices = this.apiBinanceService.getClosePrices("5m");
-            		String signal = Wuyx59Strategy.checkTradeSignal(prices);
-            		editMessage(chatId, messageId, signal);
+//            		String signal = Wuyx59Strategy.checkTradeSignal(prices);
+            		editMessage(chatId, messageId, "");
 				} catch (Exception e) {
 					// TODO: handle exception
 					editMessage(chatId, messageId, e.getMessage());

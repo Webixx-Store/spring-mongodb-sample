@@ -27,11 +27,12 @@ public class Wuyx59Strategy {
     }
 
     // Xác định tín hiệu giao dịch theo WUYX 59
-    public static String checkTradeSignal(List<Double> prices) {
+    public static String checkTradeSignal(List<Double> prices , List<Double> highs, List<Double> lows) {
         if (prices.size() < 9) return "Không đủ dữ liệu để phân tích.";
 
         List<Double> ema5 = calculateEMA(prices, 5);
         List<Double> ema9 = calculateEMA(prices, 9);
+        List<Double> cci = calculateCCI(highs, lows, prices, 14);  // CCI sử dụng chu kỳ 14
 
         if (ema5.size() < 2 || ema9.size() < 2) return "Không đủ dữ liệu EMA.";
 
@@ -42,16 +43,46 @@ public class Wuyx59Strategy {
         
         double close_current = prices.get(prices.size() - 1);
         double close_prev = prices.get(prices.size() - 2);
+        double cci_current = cci.get(cci.size() - 1);
 
         // Điều kiện BUY
-        if (ema5_prev < ema9_prev && ema5_current > ema9_current && close_current > close_prev) {
+        if (ema5_prev < ema9_prev && ema5_current > ema9_current && close_current > close_prev && cci_current > 100) {
             return "BUY";
         }
         // Điều kiện SELL
-        else if (ema5_prev > ema9_prev && ema5_current < ema9_current && close_current < close_prev) {
+        else if (ema5_prev > ema9_prev && ema5_current < ema9_current && close_current < close_prev && cci_current < -100) {
             return "SELL";
         }
         return "No Action";
+    }
+    
+    public static List<Double> calculateCCI(List<Double> highs, List<Double> lows, List<Double> closes, int period) {
+        List<Double> cciValues = new ArrayList<>();
+        if (highs.size() < period) return cciValues;
+
+        for (int i = period - 1; i < highs.size(); i++) {
+            double sum = 0;
+            for (int j = i - (period - 1); j <= i; j++) {
+                double typicalPrice = (highs.get(j) + lows.get(j) + closes.get(j)) / 3;
+                sum += typicalPrice;
+            }
+
+            double sma = sum / period;  // Simple Moving Average of the typical price
+            double mad = 0;
+
+            // Calculate Mean Absolute Deviation (MAD)
+            for (int j = i - (period - 1); j <= i; j++) {
+                double typicalPrice = (highs.get(j) + lows.get(j) + closes.get(j)) / 3;
+                mad += Math.abs(typicalPrice - sma);
+            }
+
+            mad /= period;
+
+            double cci = (sum - sma) / (0.015 * mad);
+            cciValues.add(cci);
+        }
+
+        return cciValues;
     }
 
     public static double[] calculateSLTP(List<Double> closes, List<Double> highs, List<Double> lows, String tradeSignal) {

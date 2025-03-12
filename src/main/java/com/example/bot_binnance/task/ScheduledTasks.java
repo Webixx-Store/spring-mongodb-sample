@@ -98,7 +98,7 @@ public class ScheduledTasks {
         	List<Double> lowPrices = prices.get(2);    // Giá thấp nhất
         	Double currentPrice = Double.parseDouble(binanceService.getCurrentPrice().getPrice());
         	// Lấy tín hiệu giao dịch (BUY, SELL hoặc No Action)
-        	String signal = Wuyx59Strategy.checkTradeSignal(closePrices);
+        	String signal = Wuyx59Strategy.checkTradeSignal(closePrices , highPrices , lowPrices);
         	// Gọi hàm tính toán Stop Loss và Take Profit
         	double[] slTpValues = Wuyx59Strategy.calculateSLTP(closePrices, highPrices , lowPrices ,  signal);
         	
