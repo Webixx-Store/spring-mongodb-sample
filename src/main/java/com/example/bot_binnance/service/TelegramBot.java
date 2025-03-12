@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import com.example.bot_binnance.common.PrivateKeyBinnance;
+import com.example.bot_binnance.common.Wuyx59Strategy;
 import com.example.bot_binnance.dto.BinanceOrderType;
 import com.example.bot_binnance.dto.OrderDto;
 import com.example.bot_binnance.dto.PositionDTO;
@@ -82,23 +83,28 @@ public class TelegramBot extends TelegramLongPollingBot {
 				}
             }else if ("option4".equals(callbackData)) {
             	try {
-            		Double price =  this.createOrder("BUY");
-            		editMessage(chatId, messageId, "create Order BUY: " + price);
+            		//Double price =  this.createOrder("BUY");
+            		
+            		List<Double> prices = this.apiBinanceService.getClosePrices("5m");
+            		String signal = Wuyx59Strategy.checkTradeSignal(prices);
+            		editMessage(chatId, messageId, signal);
 				} catch (Exception e) {
 					// TODO: handle exception
 					editMessage(chatId, messageId, e.getMessage());
 				}
             	
             	
-            }else if ("option5".equals(callbackData)) {
-            	try {
-            		Double price = this.createOrder("SELL");
-            		editMessage(chatId, messageId, "create Order SELL: " + price);
-				} catch (Exception e) {
-					// TODO: handle exception
-					editMessage(chatId, messageId, e.getMessage());
-				}
             }
+            
+//            else if ("option5".equals(callbackData)) {
+//            	try {
+//            		Double price = this.createOrder("SELL");
+//            		editMessage(chatId, messageId, "create Order SELL: " + price);
+//				} catch (Exception e) {
+//					// TODO: handle exception
+//					editMessage(chatId, messageId, e.getMessage());
+//				}
+//            }
             else {
                 String responseText = "Unknown option selected!";
                 editMessage(chatId, messageId, responseText);
@@ -133,18 +139,18 @@ public class TelegramBot extends TelegramLongPollingBot {
         button3.setCallbackData("option3");
         
         InlineKeyboardButton button4 = new InlineKeyboardButton();
-        button4.setText("Order BUY");
+        button4.setText("Get WUYX59 BTC");
         button4.setCallbackData("option4");
         
-        InlineKeyboardButton button5 = new InlineKeyboardButton();
-        button5.setText("Order SELL");
-        button5.setCallbackData("option5");
+//        InlineKeyboardButton button5 = new InlineKeyboardButton();
+//        button5.setText("Order SELL");
+//        button5.setCallbackData("option5");
 
         rowInline.add(button1);
         //rowInline.add(button2);
         //rowInline.add(button3);
         rowInline.add(button4);
-        rowInline.add(button5);
+  //      rowInline.add(button5);
         rowsInline.add(rowInline);
 
         inlineKeyboardMarkup.setKeyboard(rowsInline);

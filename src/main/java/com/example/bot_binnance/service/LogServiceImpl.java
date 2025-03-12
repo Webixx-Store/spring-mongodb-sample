@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import com.example.bot_binnance.common.DateUtils;
 import com.example.bot_binnance.model.ActionLog;
 import com.example.bot_binnance.model.PriceLogDto;
 import com.example.bot_binnance.model.Telegram;
@@ -35,8 +36,9 @@ public class LogServiceImpl implements LogService {
 	    // Thêm mới ActionLog
 	   @Override
 	    public ActionLog createActionLog(ActionLog actionLog) {
-	        actionLog.setTimeCreate(LocalDateTime.now());
-	        actionLog.setTimeUpdate(LocalDateTime.now());
+	        //actionLog.setTimeCreate(LocalDateTime.now());
+	        //actionLog.setTimeUpdate(LocalDateTime.now());
+		   actionLog.setDate(DateUtils.getVietnamTime());
 	        return repository.save(actionLog);
 	    }
 
@@ -130,9 +132,9 @@ public class LogServiceImpl implements LogService {
 	
 	@Override
 	public List<ActionLog> findRecentActionLogs() {
-        List<String> typeOrders = Arrays.asList("STOP_MARKET", "TAKE_PROFIT_MARKET");
-        String status = "NEW";
-        return repository.findByTypeOrderInAndStatusOrderByTimeCreateDesc(typeOrders, status);
+//        List<String> typeOrders = Arrays.asList("STOP_MARKET", "TAKE_PROFIT_MARKET");
+//        String status = "NEW";
+        return null;
     }
 	
 	@Override

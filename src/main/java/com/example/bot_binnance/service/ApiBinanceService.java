@@ -21,6 +21,7 @@ public interface ApiBinanceService {
 	List<OrderDto> listOrder(long orderId);
 	void cancelOpenOrder();
 	List<Double> getClosePrices(String time);
+	List<List<Double>> getCloseHighLowPrices(String time);
 	
 
 }

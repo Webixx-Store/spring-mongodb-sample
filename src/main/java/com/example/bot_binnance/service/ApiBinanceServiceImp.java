@@ -23,6 +23,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.google.gson.Gson;
 import java.text.DecimalFormat;
 import java.time.Instant;
@@ -116,16 +118,15 @@ public class ApiBinanceServiceImp implements ApiBinanceService{
         	ActionLog log = new ActionLog();
             log.setOrderId(String.valueOf(ord.getOrderId()));
             if (type.equals(BinanceOrderType.MARKET)) {
-            	log.setStatus("FILLED");
+            	//log.setStatus("FILLED");
 			}else {
-				log.setStatus(ord.getStatus());
+				//log.setStatus(ord.getStatus());
 			}
             log.setSymbol(ord.getSymbol());
             log.setTypeOrder(ord.getType());
             log.setSide(side);
             log.setPrice(Double.parseDouble(decimalFormatPrice.format(price)));
-            log.setTimeCreate(LocalDateTime.now());
-            log.setTimeUpdate(LocalDateTime.now());
+      
             long currentTimestamp = Instant.now().toEpochMilli();
             // Định dạng timestamp thành chuỗi
             String formattedTimestamp = PrivateKeyBinnance.formatTimestamp(currentTimestamp);
@@ -192,6 +193,36 @@ public class ApiBinanceServiceImp implements ApiBinanceService{
         }
         return closePrices;
 	}
+	
+	@Override
+	public List<List<Double>> getCloseHighLowPrices(String time) {
+	    LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+	    parameters.put("symbol", PrivateKeyBinnance.SYMBOL);
+	    parameters.put("interval", time);
+	    parameters.put("limit", 200);
+	    String result = client.market().klines(parameters);
+	    JSONArray jsonArray = new JSONArray(result);
+
+	    List<Double> closePrices = new ArrayList<>();
+	    List<Double> highPrices = new ArrayList<>();
+	    List<Double> lowPrices = new ArrayList<>();
+
+	    for (int i = 0; i < jsonArray.length(); i++) {
+	        JSONArray kline = jsonArray.getJSONArray(i);  
+	        
+	        if (i == 199) {
+	            closePrices.add(Double.parseDouble(getCurrentPrice().getPrice()));
+	        } else {
+	            closePrices.add(kline.getDouble(4));  // Giá đóng
+	            highPrices.add(kline.getDouble(2));   // Giá cao nhất
+	            lowPrices.add(kline.getDouble(3));    // Giá thấp nhất
+	        }
+	    }
+	    
+	    // Trả về danh sách chứa các danh sách (closePrices, highPrices, lowPrices)
+	    return Arrays.asList(closePrices, highPrices, lowPrices);
+	}
+
 	
 
 	

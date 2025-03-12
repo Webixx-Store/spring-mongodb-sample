@@ -12,7 +12,7 @@ import com.example.bot_binnance.model.ActionLog;
 public interface ActionLogRepository extends MongoRepository<ActionLog, String> {
     // Các phương thức truy vấn tùy chỉnh nếu cần
 	
-	 List<ActionLog> findByTypeOrderInAndStatusOrderByTimeCreateDesc(List<String> typeOrders, String status);
+	// List<ActionLog> findByTypeOrderInAndStatusOrderByTimeCreateDesc(List<String> typeOrders, String status);
 //	 void updateStatusByOrderId(String orderId, String status);
 }
 

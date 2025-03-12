@@ -16,10 +16,11 @@ public class ActionLog {
     private Double price;
 	private String side; // BUY or SELL
     private String symbol;
-    private Double profit = 0d;
-    private String status = "";
-    private LocalDateTime timeCreate;
-    private LocalDateTime timeUpdate;
+    private Double stoplost;
+    private Double takeProfit;
+    
+    
+    
 
     // Constructors
     public ActionLog() {}
@@ -39,23 +40,6 @@ public class ActionLog {
         this.id = id;
     }
 
-
-    public LocalDateTime getTimeCreate() {
-        return timeCreate;
-    }
-
-    public void setTimeCreate(LocalDateTime timeCreate) {
-        this.timeCreate = timeCreate;
-    }
-
-    public LocalDateTime getTimeUpdate() {
-        return timeUpdate;
-    }
-
-    public void setTimeUpdate(LocalDateTime timeUpdate) {
-        this.timeUpdate = timeUpdate;
-    }
-
 	public String getSymbol() {
 		return symbol;
 	}
@@ -65,15 +49,6 @@ public class ActionLog {
 	}
 
 
-	public Double getProfit() {
-		return profit;
-	}
-
-
-
-	public void setProfit(Double profit) {
-		this.profit = profit;
-	}
 
 
 
@@ -89,16 +64,7 @@ public class ActionLog {
 
 
 
-	public String getStatus() {
-		return status;
-	}
 
-
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	
 	
     public Double getPrice() {
 		return price;
@@ -169,7 +135,54 @@ public class ActionLog {
 	public void setTypeOrder(String typeOrder) {
 		this.typeOrder = typeOrder;
 	}
-	
+
+
+
+
+
+
+
+	public Double getStoplost() {
+		return stoplost;
+	}
+
+
+
+
+
+
+
+	public void setStoplost(Double stoplost) {
+		this.stoplost = stoplost;
+	}
+
+
+
+
+
+
+
+	public Double getTakeProfit() {
+		return takeProfit;
+	}
+
+
+
+
+
+
+
+	public void setTakeProfit(Double takeProfit) {
+		this.takeProfit = takeProfit;
+	}
+
+
+
+
+
+
+
+
 	
 	
     
