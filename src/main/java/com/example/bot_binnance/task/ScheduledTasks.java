@@ -78,7 +78,7 @@ public class ScheduledTasks {
 	
     @Scheduled(fixedRate = 30000) // chạy mỗi 30 giây
     public void fetchData() {
-        String url = "https://spring-mongodb-sample.onrender.com/";
+        String url = "https://spring-mongodb-sample.onrender.com";
         try {
             restTemplate.getForObject(url, String.class);
         } catch (Exception e) {

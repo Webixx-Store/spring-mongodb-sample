@@ -120,7 +120,7 @@ public class ProductController {
 			List<String> sliderPaths = new ArrayList<>();
 			if (product.getSliders() != null && !product.getSliders().isEmpty()) {
 				for (String slider : product.getSliders()) {
-					if(slider.contains("upload/product")) {
+					if(slider.contains("res.cloudinary.com")) {
 						sliderOld.add(slider);
 					}
 				}
