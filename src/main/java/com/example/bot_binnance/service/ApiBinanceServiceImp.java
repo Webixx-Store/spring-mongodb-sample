@@ -38,12 +38,11 @@ public class ApiBinanceServiceImp implements ApiBinanceService{
 
 	
 	@Autowired LogService logService;
-	//@Autowired TelegramBot telegramBot;
 	
 	 UMFuturesClientImpl client  = new UMFuturesClientImpl(
-			 PrivateKeyBinnance.TESTNET_API_KEY,
-			 PrivateKeyBinnance.TESTNET_SECRET_KEY,
-	    	 PrivateKeyBinnance.TESTNET_BASE_URL);
+			 PrivateKeyBinnance.API_KEY,
+			 PrivateKeyBinnance.SECRET_KEY,
+	    	 PrivateKeyBinnance.UM_BASE_URL);
 	 
 	 
 	
@@ -79,66 +78,44 @@ public class ApiBinanceServiceImp implements ApiBinanceService{
 	}
 	
 	@Override
-	public OrderDto createOrder(double price , String side , BinanceOrderType type , long orderId) {
-		LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+	public OrderDto createOrder(double price, String side, BinanceOrderType type, long orderId) {
+	    LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+	    DecimalFormat decimalFormatQuantity = new DecimalFormat("#.###");
+	    DecimalFormat decimalFormatPrice = new DecimalFormat("#.##");
 
-       
-        DecimalFormat decimalFormat = new DecimalFormat("#.###");
-        DecimalFormat decimalFormatPrice = new DecimalFormat("#.##");
-        parameters = new LinkedHashMap<>();
-        parameters.put("symbol", PrivateKeyBinnance.SYMBOL);
-        parameters.put("side", side);
-        parameters.put("quantity", decimalFormat.format(PrivateKeyBinnance.QUANTITY));
-        parameters.put("type", type.getValue());
-        
-        if (orderId != 0) {
-        	 parameters.put("orderId", orderId);
-		}
-        
-        if(BinanceOrderType.LIMIT.equals(type) || type.equals(BinanceOrderType.STOP)
-        		|| type.equals(BinanceOrderType.TAKE_PROFIT)) {
-        	 parameters.put("price", decimalFormatPrice.format(price));
-        	 parameters.put("timeInForce", "GTC");
-        }
-        
-        if(type.equals(BinanceOrderType.STOP_MARKET) 
-        		|| type.equals(BinanceOrderType.TAKE_PROFIT_MARKET) 
-        		|| type.equals(BinanceOrderType.STOP_LOSS_LIMIT)
-        		|| type.equals(BinanceOrderType.STOP)
-        		|| type.equals(BinanceOrderType.TAKE_PROFIT)) {
-       	 parameters.put("stopPrice",  decimalFormatPrice.format(price));
-       }
-        parameters.put("type", type.getValue());
-        String result  =client.account().newOrder(parameters);
-        Gson gson = new Gson();
-        OrderDto ord = gson.fromJson(result, OrderDto.class);
-        
-		/* actionLog */   
-        if(ord != null) {
-        	ActionLog log = new ActionLog();
-            log.setOrderId(String.valueOf(ord.getOrderId()));
-            if (type.equals(BinanceOrderType.MARKET)) {
-            	//log.setStatus("FILLED");
-			}else {
-				//log.setStatus(ord.getStatus());
-			}
-            log.setSymbol(ord.getSymbol());
-            log.setTypeOrder(ord.getType());
-            log.setSide(side);
-            log.setPrice(Double.parseDouble(decimalFormatPrice.format(price)));
-      
-            long currentTimestamp = Instant.now().toEpochMilli();
-            // Định dạng timestamp thành chuỗi
-            String formattedTimestamp = PrivateKeyBinnance.formatTimestamp(currentTimestamp);
-            log.setDate(formattedTimestamp);
-            this.logService.createActionLog(log);
-        }
-        
-        
-        //telegramBot.sendMessage("1180457993",side + " _ " + type.getValue() + " " + PrivateKeyBinnance.QUANTITY +" BTC_USDT at price: " + decimalFormatPrice.format(price) );
-        
-		return ord;
+	    parameters.put("symbol", PrivateKeyBinnance.SYMBOL);
+	    parameters.put("side", side);
+	    parameters.put("quantity", decimalFormatQuantity.format(PrivateKeyBinnance.QUANTITY));
+	    parameters.put("type", type.getValue());
+
+	    if (BinanceOrderType.LIMIT.equals(type) || BinanceOrderType.STOP.equals(type) ||
+	        BinanceOrderType.TAKE_PROFIT.equals(type)) {
+	        parameters.put("price", decimalFormatPrice.format(price));
+	        parameters.put("timeInForce", "GTC"); // Giữ lệnh đến khi khớp hoặc hủy
+	    }
+
+	    if (BinanceOrderType.STOP_MARKET.equals(type) || BinanceOrderType.TAKE_PROFIT_MARKET.equals(type) ||
+	        BinanceOrderType.STOP_LOSS_LIMIT.equals(type) || BinanceOrderType.STOP.equals(type) ||
+	        BinanceOrderType.TAKE_PROFIT.equals(type)) {
+	        parameters.put("stopPrice", decimalFormatPrice.format(price));
+	    }
+
+	    // Nếu có orderId (chỉ áp dụng khi cần kiểm tra lệnh)
+	    if (orderId != 0) {
+	        parameters.put("orderId", orderId);
+	    }
+
+	    // Tạo ID đơn hàng tùy chỉnh (tùy chọn)
+	    parameters.put("newClientOrderId", "order-" + System.currentTimeMillis());
+
+	    // Gửi lệnh đến Binance
+	    String result = client.account().newOrder(parameters);
+
+	    // Chuyển đổi JSON kết quả thành đối tượng OrderDto
+	    Gson gson = new Gson();
+	    return gson.fromJson(result, OrderDto.class);
 	}
+
 	
 
 	
