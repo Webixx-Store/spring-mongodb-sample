@@ -72,11 +72,25 @@ public class BinnanceController {
   	
   }
     
-    @GetMapping("/test")
+    @GetMapping("/positionInformation")
     public ResponseEntity<?> getMethodName() {
     	try {
     		List<PositionDTO> pDto = this.apiBinanceService.positionInformation(PrivateKeyBinnance.SYMBOL);
     		 return ResponseEntity.ok(pDto);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}
+       
+    }
+    
+
+    @GetMapping("/getBalances")
+    public ResponseEntity<?> getMethodName1() {
+    	try {
+    		
+    		 return ResponseEntity.ok(this.apiBinanceService.getBalance());
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());

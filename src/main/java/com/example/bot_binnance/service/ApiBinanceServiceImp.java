@@ -19,6 +19,10 @@ import com.example.bot_binnance.dto.PriceDto;
 import com.example.bot_binnance.dto.TimeFrame;
 import com.example.bot_binnance.dto.TopLongSortAccountRatioDto;
 import com.example.bot_binnance.model.ActionLog;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -199,6 +203,37 @@ public class ApiBinanceServiceImp implements ApiBinanceService{
 	    // Trả về danh sách chứa các danh sách (closePrices, highPrices, lowPrices)
 	    return Arrays.asList(closePrices, highPrices, lowPrices);
 	}
+	
+
+ 
+	@Override
+	public String   getBalance() throws JsonMappingException, JsonProcessingException {
+		LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+		parameters.put("symbol", PrivateKeyBinnance.SYMBOL);
+        // Gọi API lấy thông tin tài khoản
+        String result = client.account().accountInformation(parameters);
+
+        // Chuyển đổi JSON thành Object
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode rootNode = mapper.readTree(result);
+
+        // Lọc số dư USDT từ danh sách assets
+        JsonNode assets = rootNode.path("assets");
+        String usdtBalance = "0";
+
+        for (JsonNode asset : assets) {
+            if (asset.path("asset").asText().equals("USDT")) {
+                usdtBalance = asset.path("walletBalance").asText();
+                break;
+            }
+        }
+
+        // In ra số USDT hiện có
+        System.out.println("Số dư USDT hiện có: " + usdtBalance);
+        return "Số dư USDT hiện có: " + usdtBalance;
+		
+	}
+	
 
 	
 
