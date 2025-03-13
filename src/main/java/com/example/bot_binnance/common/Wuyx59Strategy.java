@@ -100,6 +100,8 @@ public class Wuyx59Strategy {
         } else {
             return new double[]{0, 0};
         }
+        stopLoss = Math.round(stopLoss * 100.0) / 100.0;
+        takeProfit = Math.round(takeProfit * 100.0) / 100.0;
         return new double[]{stopLoss, takeProfit};
     }
 
