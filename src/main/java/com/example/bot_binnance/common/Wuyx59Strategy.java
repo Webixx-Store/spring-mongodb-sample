@@ -61,29 +61,32 @@ public class Wuyx59Strategy {
         if (highs.size() < period) return cciValues;
 
         for (int i = period - 1; i < highs.size(); i++) {
-            double sum = 0;
+            double sumTP = 0;
+            List<Double> typicalPrices = new ArrayList<>();
+
             for (int j = i - (period - 1); j <= i; j++) {
-                double typicalPrice = (highs.get(j) + lows.get(j) + closes.get(j)) / 3;
-                sum += typicalPrice;
+                double tp = (highs.get(j) + lows.get(j) + closes.get(j)) / 3;
+                typicalPrices.add(tp);
+                sumTP += tp;
             }
 
-            double sma = sum / period;  // Simple Moving Average of the typical price
+            double sma = sumTP / period; // Trung bình động của TP
             double mad = 0;
 
-            // Calculate Mean Absolute Deviation (MAD)
-            for (int j = i - (period - 1); j <= i; j++) {
-                double typicalPrice = (highs.get(j) + lows.get(j) + closes.get(j)) / 3;
-                mad += Math.abs(typicalPrice - sma);
+            for (double tp : typicalPrices) {
+                mad += Math.abs(tp - sma);
             }
-
             mad /= period;
 
-            double cci = (sum - sma) / (0.015 * mad);
+            // Lấy Typical Price tại thời điểm hiện tại (cuối chu kỳ)
+            double currentTP = typicalPrices.get(period - 1);
+            double cci = (currentTP - sma) / (0.015 * mad);
             cciValues.add(cci);
         }
 
         return cciValues;
     }
+
 
     public static double[] calculateSLTP(List<Double> closes, List<Double> highs, List<Double> lows, String tradeSignal) {
         double close_current = closes.get(closes.size() - 1);
