@@ -93,10 +93,16 @@ public class ScheduledTasks {
             	// Lấy tín hiệu giao dịch (BUY, SELL hoặc No Action)
             	String signal = Wuyx59Strategy.checkTradeSignal(closePrices , highPrices , lowPrices);
             	// Gọi hàm tính toán Stop Loss và Take Profit
-            	double[] slTpValues = Wuyx59Strategy.calculateSLTP(closePrices, highPrices , lowPrices ,  signal);
-            	// Lấy từng giá trị SL và TP
-            	double stopLoss = slTpValues[0];
-            	double takeProfit = slTpValues[1];
+            	//double[] slTpValues = Wuyx59Strategy.calculateSLTP(closePrices, highPrices , lowPrices ,  signal);
+            	double stopLoss = 0d;
+            	double takeProfit = 0d;
+	        	 if ("BUY".equals(signal)) {
+	                 stopLoss = currentPrice - 315d;
+	                 takeProfit = currentPrice + 350d;
+	             } else if ("SELL".equals(signal)) {
+	            	 stopLoss = currentPrice + 315d;
+	                 takeProfit = currentPrice - 350d;
+	             } 
         		ActionLog log = new ActionLog();
         		log.setPrice(currentPrice);
         		log.setSide(signal);
@@ -121,14 +127,8 @@ public class ScheduledTasks {
                         BinanceOrderType.STOP_MARKET, 
                         0
                     );
-
-                    // 3**Tạo Take-Profit Order**
-                    if(signal.equals("BUY")) {
-                    	takeProfit = takeProfit - 100d;
-                    }
-                    if(signal.equals("SELL")) {
-                    	takeProfit = takeProfit + 100d;
-                    }
+                    
+              
                     OrderDto takeProfitOrder = this.binanceService.createOrder(
                         takeProfit, 
                         signal.equals("BUY") ? "SELL" : "BUY", // Ngược chiều lệnh chính

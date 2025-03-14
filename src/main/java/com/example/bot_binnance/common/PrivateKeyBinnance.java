@@ -19,7 +19,7 @@ public class PrivateKeyBinnance {
 	    public static final String TESTNET_API_KEY = "9fe6b1c6e7d43c8aae7f3bbfc60baf40125a7ddd807f82b8d21f2814ba5b1205";
 	    public static final String TESTNET_SECRET_KEY = "06c0cc3bd5b14a74ac90efd6ada9f1642f140b399f333b43e7abc9fd4aff6572";
 
-	    public static final double QUANTITY = 0.003d;
+	    public static final double QUANTITY = 0.004d;
 
 	    
 		public static String SYMBOL = "BTCUSDT"; 
