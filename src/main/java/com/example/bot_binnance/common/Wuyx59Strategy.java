@@ -46,11 +46,11 @@ public class Wuyx59Strategy {
         double cci_current = cci.get(cci.size() - 1);
 
         // Điều kiện BUY
-        if (ema5_prev < ema9_prev && ema5_current > ema9_current && close_current > close_prev && cci_current < -100) {
+        if (ema5_prev < ema9_prev && ema5_current > ema9_current && close_current > close_prev ) { //&& cci_current < -100
             return "BUY";
         }
         // Điều kiện SELL
-        else if (ema5_prev > ema9_prev && ema5_current < ema9_current && close_current < close_prev && cci_current > 100) {
+        else if (ema5_prev > ema9_prev && ema5_current < ema9_current && close_current < close_prev ) { //&& cci_current > 100
             return "SELL";
         }
         return "No Action";
