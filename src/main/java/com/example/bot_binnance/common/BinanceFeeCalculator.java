@@ -18,5 +18,8 @@ public class BinanceFeeCalculator {
         return new FeeBinnance(buyFee, sellFee, netProfit, totalFees);
     }
     
+    public static void main(String[] args) {
+		System.out.println(BinanceFeeCalculator.calculateFeesAndProfit(84502, 84850));
+	}
 
 }

@@ -66,13 +66,12 @@ public class ScheduledTasks {
 	BlogService blogService;
 	@Autowired
 	ContentGeneratorService contentGeneratorService;
-
-	private final ReentrantLock lock = new ReentrantLock();
+	
 
 	@Scheduled(fixedRate = 30000) // chạy mỗi 30 giây
 	public void fetchData() {
-		if (lock.tryLock()) {
 			String url = "https://spring-mongodb-sample.onrender.com";
+			
 			try {
 				SimpleSwingTrader simpleSwingTrader = new SimpleSwingTrader();
 				List<CandleStick> candleSticks = this.binanceService.getCandleSticks("1m");
@@ -119,14 +118,11 @@ public class ScheduledTasks {
 					
 					
 				}
-
+				restTemplate.getForObject(url, String.class);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
-			} finally {
-				 restTemplate.getForObject(url, String.class);
-				lock.unlock();
 			}
-		}
+		
 
 	}
 
