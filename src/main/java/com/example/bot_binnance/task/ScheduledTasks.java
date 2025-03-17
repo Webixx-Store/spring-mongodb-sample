@@ -84,7 +84,7 @@ public class ScheduledTasks {
 					this.binanceService.cancelOpenOrder();
 				}
 				ActionLog log = new ActionLog();
-				log.setPrice(trade.getEntryPrice());
+				log.setPrice(candleSticks.get(candleSticks.size() - 1).getClose());
 				log.setSide(trade.getMessage());
 				log.setTakeProfit(trade.getTakeProfit());
 				log.setStoplost(trade.getStopLoss());
