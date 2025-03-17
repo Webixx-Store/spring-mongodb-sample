@@ -112,7 +112,7 @@ public class ScheduledTasks {
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			} finally {
-				// restTemplate.getForObject(url, String.class);
+				 restTemplate.getForObject(url, String.class);
 				lock.unlock();
 			}
 		}
