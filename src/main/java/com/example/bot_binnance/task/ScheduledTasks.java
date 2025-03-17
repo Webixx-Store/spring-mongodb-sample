@@ -68,10 +68,8 @@ public class ScheduledTasks {
 	ContentGeneratorService contentGeneratorService;
 	
 
-	@Scheduled(fixedRate = 30000) // chạy mỗi 30 giây
+	@Scheduled(fixedRate = (60 * 1000 * 1) ) // chạy mỗi 30 giây
 	public void fetchData() {
-			String url = "https://spring-mongodb-sample.onrender.com";
-			
 			try {
 				SimpleSwingTrader simpleSwingTrader = new SimpleSwingTrader();
 				List<CandleStick> candleSticks = this.binanceService.getCandleSticks("1m");
@@ -110,20 +108,25 @@ public class ScheduledTasks {
 						OrderDto takeProfitOrder = this.binanceService.createOrder(trade.getTakeProfit(),
 								signal.equals("BUY") ? "SELL" : "BUY", // Ngược chiều lệnh chính
 								BinanceOrderType.TAKE_PROFIT_MARKET, 0);
-						
-					
 					
 					}
-					
-					
-					
 				}
-				restTemplate.getForObject(url, String.class);
+			
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
 		
 
+	}
+	
+	@Scheduled(fixedRate = 30000) // chạy mỗi 30 giây
+	public void fetchData1() {
+			String url = "https://spring-mongodb-sample.onrender.com";
+			try {
+				restTemplate.getForObject(url, String.class);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 	}
 
 //    @Scheduled(fixedRate = (60 * 1000 * 3) + (45 * 1000)) // 3 phút + 45 giây
