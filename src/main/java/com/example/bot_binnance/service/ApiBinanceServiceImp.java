@@ -18,6 +18,7 @@ import com.example.bot_binnance.dto.PositionDTO;
 import com.example.bot_binnance.dto.PriceDto;
 import com.example.bot_binnance.dto.TimeFrame;
 import com.example.bot_binnance.dto.TopLongSortAccountRatioDto;
+import com.example.bot_binnance.dto.trade.CandleStick;
 import com.example.bot_binnance.model.ActionLog;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -233,6 +234,39 @@ public class ApiBinanceServiceImp implements ApiBinanceService{
         return "Số dư USDT hiện có: " + usdtBalance;
 		
 	}
+	
+	@Override
+	public List<CandleStick> getCandleSticks(String time) throws Exception {
+	    LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+	    parameters.put("symbol", PrivateKeyBinnance.SYMBOL);
+	    parameters.put("interval", time);
+	    parameters.put("limit", 200);
+
+	    String result = client.market().klines(parameters);
+	    JSONArray jsonArray = new JSONArray(result);
+	    ObjectMapper objectMapper = new ObjectMapper();
+	    JsonNode rootNode = objectMapper.readTree(result);
+
+	    List<CandleStick> candles = new ArrayList<>();
+	    for (JsonNode node : rootNode) {
+	        CandleStick candle = new CandleStick(
+	            node.get(0).asLong(),   // openTime
+	            node.get(1).asDouble(), // open
+	            node.get(2).asDouble(), // high
+	            node.get(3).asDouble(), // low
+	            node.get(4).asDouble(), // close
+	            node.get(5).asDouble(), // volume
+	            node.get(6).asLong(),   // closeTime
+	            node.get(7).asDouble(), // quoteAssetVolume
+	            node.get(8).asInt(),    // numberOfTrades
+	            node.get(9).asDouble(), // takerBuyBaseAssetVolume
+	            node.get(10).asDouble() // takerBuyQuoteAssetVolume
+	        );
+	        candles.add(candle);
+	    }
+	    return candles;
+	}
+
 	
 
 	

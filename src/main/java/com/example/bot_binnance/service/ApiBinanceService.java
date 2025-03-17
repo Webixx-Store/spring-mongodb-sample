@@ -8,6 +8,7 @@ import com.example.bot_binnance.dto.PositionDTO;
 import com.example.bot_binnance.dto.PriceDto;
 import com.example.bot_binnance.dto.TimeFrame;
 import com.example.bot_binnance.dto.TopLongSortAccountRatioDto;
+import com.example.bot_binnance.dto.trade.CandleStick;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
@@ -25,6 +26,7 @@ public interface ApiBinanceService {
 	List<Double> getClosePrices(String time);
 	List<List<Double>> getCloseHighLowPrices(String time);
 	String getBalance() throws JsonMappingException, JsonProcessingException;
+	List<CandleStick> getCandleSticks(String time) throws Exception;
 	
 
 }
