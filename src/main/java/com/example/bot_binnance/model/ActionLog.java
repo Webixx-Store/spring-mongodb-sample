@@ -18,6 +18,9 @@ public class ActionLog {
     private String symbol;
     private Double stoplost;
     private Double takeProfit;
+    private String mestakeProfit;
+    private String messtoploss;
+    
     
     
     
@@ -174,6 +177,46 @@ public class ActionLog {
 
 	public void setTakeProfit(Double takeProfit) {
 		this.takeProfit = takeProfit;
+	}
+
+
+
+
+
+
+
+	public String getMestakeProfit() {
+		return mestakeProfit;
+	}
+
+
+
+
+
+
+
+	public void setMestakeProfit(String mestakeProfit) {
+		this.mestakeProfit = mestakeProfit;
+	}
+
+
+
+
+
+
+
+	public String getMesstoploss() {
+		return messtoploss;
+	}
+
+
+
+
+
+
+
+	public void setMesstoploss(String messtoploss) {
+		this.messtoploss = messtoploss;
 	}
 
 

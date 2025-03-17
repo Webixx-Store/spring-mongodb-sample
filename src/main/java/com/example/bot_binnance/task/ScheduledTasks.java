@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import com.binance.connector.futures.client.impl.UMFuturesClientImpl;
+import com.example.bot_binnance.common.BinanceFeeCalculator;
 import com.example.bot_binnance.common.DateUtils;
 import com.example.bot_binnance.common.PrivateKeyBinnance;
 import com.example.bot_binnance.common.SimpleSwingTrader;
@@ -88,25 +89,35 @@ public class ScheduledTasks {
 				log.setTakeProfit(trade.getTakeProfit());
 				log.setStoplost(trade.getStopLoss());
 				logService.createActionLog(log);
+				
 				if (pDto.get(0).getPositionAmt() == 0d && !trade.getSignal().equals("WAIT")) {
 					// **Mở lệnh Market**
-					OrderDto marketOrder = this.binanceService.createOrder(trade.getEntryPrice(), // Giá hiện tại
-							trade.getSignal(), // BUY hoặc SELL
-							BinanceOrderType.MARKET, // Lệnh Market
-							0 // Không có orderId
-					);
+					Double profit = BinanceFeeCalculator.calculateFeesAndProfit(trade.getEntryPrice() , trade.getTakeProfit()  ).getProfit();
+					Double lost = Math.abs(trade.getStopLoss() - trade.getEntryPrice()) * PrivateKeyBinnance.QUANTITY; 
+					
+					if(profit > lost*0.8) {
+						// mới vô lệnh 
+						OrderDto marketOrder = this.binanceService.createOrder(trade.getEntryPrice(), // Giá hiện tại
+								trade.getSignal(), // BUY hoặc SELL
+								BinanceOrderType.MARKET, // Lệnh Market
+								0 // Không có orderId
+						);
 
-					// 2**Tạo Stop-Loss Order**
-					OrderDto stopLossOrder = this.binanceService.createOrder(trade.getStopLoss(),
-							signal.equals("BUY") ? "SELL" : "BUY", // Ngược chiều lệnh chính
-							BinanceOrderType.STOP_MARKET, 0);
+						// 2**Tạo Stop-Loss Order**
+						OrderDto stopLossOrder = this.binanceService.createOrder(trade.getStopLoss(),
+								signal.equals("BUY") ? "SELL" : "BUY", // Ngược chiều lệnh chính
+								BinanceOrderType.STOP_MARKET, 0);
 
-					OrderDto takeProfitOrder = this.binanceService.createOrder(trade.getTakeProfit(),
-							signal.equals("BUY") ? "SELL" : "BUY", // Ngược chiều lệnh chính
-							BinanceOrderType.TAKE_PROFIT_MARKET, 0);
-					System.out.println("Market Order: " + marketOrder.getAvgPrice());
-					System.out.println("Stop-Loss Order: " + stopLossOrder.getAvgPrice());
-					System.out.println("Take-Profit Order: " + takeProfitOrder.getAvgPrice());
+						OrderDto takeProfitOrder = this.binanceService.createOrder(trade.getTakeProfit(),
+								signal.equals("BUY") ? "SELL" : "BUY", // Ngược chiều lệnh chính
+								BinanceOrderType.TAKE_PROFIT_MARKET, 0);
+						
+					
+					
+					}
+					
+					
+					
 				}
 
 			} catch (Exception e) {
