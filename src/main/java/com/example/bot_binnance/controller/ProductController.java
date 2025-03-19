@@ -25,6 +25,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/products")
@@ -273,13 +274,23 @@ public class ProductController {
     private String saveImage(MultipartFile fileData) throws Exception {
         if (fileData != null && !fileData.isEmpty()) {
             try (InputStream inputStream = fileData.getInputStream()) {
-                // Upload image to Cloudinary using InputStream
-                Map<String, Object> uploadResult = cloudinaryImageManager.uploadLargeImage(inputStream, fileData.getOriginalFilename());
+                // Tạo public_id duy nhất cho mỗi file
+                String uniquePublicId = UUID.randomUUID().toString();
+                
+                // Tạo options upload với public_id
+                Map<String, Object> options = new HashMap<>();
+                options.put("public_id", uniquePublicId);
+                
+                // Upload image to Cloudinary using InputStream với options
+                Map<String, Object> uploadResult = cloudinaryImageManager.uploadLargeImage(
+                    inputStream, 
+                    fileData.getOriginalFilename(),
+                    options
+                );
                 
                 if (uploadResult != null) {                    
-                    // Return the URL to the uploaded image
-                	String secureUrl = (String) uploadResult.get("secure_url");
-                    return secureUrl; // Return the URL to the uploaded image
+                    String secureUrl = (String) uploadResult.get("secure_url");
+                    return secureUrl;
                 }
             } catch (IOException e) {
                 System.err.println("Error processing uploaded image: " + e.getMessage());

@@ -38,6 +38,7 @@ public class Product {
     
     private String visaType;
     private String content;
+    private List<ContentItem> contentList;
     public String getId() {
         return id;
     }
@@ -204,6 +205,14 @@ public class Product {
 
 	public void setServices(String services) {
 		this.services = services;
+	}
+
+	public List<ContentItem> getContentList() {
+		return contentList;
+	}
+
+	public void setContentList(List<ContentItem> contentList) {
+		this.contentList = contentList;
 	}
 	
     

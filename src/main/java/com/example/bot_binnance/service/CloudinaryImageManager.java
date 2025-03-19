@@ -17,14 +17,19 @@ public class CloudinaryImageManager {
         cloudinary = new Cloudinary("cloudinary://731418236769821:B803jh-n-wFQVTGB7-wN7mujXXI@dktt5amgw");
     }
 
-    public Map<String, Object> uploadLargeImage(InputStream inputStream, String filename) {
+    public Map<String, Object> uploadLargeImage(InputStream inputStream, String filename, Map<String, Object> additionalOptions) {
         try {
-            // Configure upload parameters
+            // Configure base upload parameters
             Map<String, Object> params = ObjectUtils.asMap(
                 "use_filename", true,
                 "unique_filename", false,
                 "overwrite", true
             );
+            
+            // Add additional options if provided
+            if (additionalOptions != null) {
+                params.putAll(additionalOptions);
+            }
 
             // Upload the image stream using uploadLarge and return the result
             return cloudinary.uploader().uploadLarge(inputStream, params);

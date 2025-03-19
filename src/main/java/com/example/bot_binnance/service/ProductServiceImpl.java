@@ -109,6 +109,7 @@ public class ProductServiceImpl implements ProductService {
 	            existingProduct.setVisaType(productDetails.getVisaType());
 	            existingProduct.setServices(productDetails.getServices());
 	            existingProduct.setTimeDate(productDetails.getTimeDate());
+	            existingProduct.setContentList(productDetails.getContentList());
 	            return productRepository.save(existingProduct);
 	        }
 	    }
