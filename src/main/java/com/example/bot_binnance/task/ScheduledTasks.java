@@ -1,47 +1,25 @@
 package com.example.bot_binnance.task;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
 
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
-
-import com.binance.connector.futures.client.impl.UMFuturesClientImpl;
 import com.example.bot_binnance.common.BinanceFeeCalculator;
-import com.example.bot_binnance.common.DateUtils;
 import com.example.bot_binnance.common.PrivateKeyBinnance;
 import com.example.bot_binnance.common.SimpleSwingTrader;
 import com.example.bot_binnance.common.SimpleSwingTrader.TradeSignal;
-import com.example.bot_binnance.common.Wuyx59Strategy;
-import com.example.bot_binnance.dto.BinanceOrderType;
 import com.example.bot_binnance.dto.OrderDto;
 import com.example.bot_binnance.dto.PositionDTO;
-import com.example.bot_binnance.dto.TimeFrame;
 import com.example.bot_binnance.dto.trade.CandleStick;
 import com.example.bot_binnance.model.ActionLog;
-import com.example.bot_binnance.model.Blog;
-import com.example.bot_binnance.model.PriceLogDto;
 import com.example.bot_binnance.service.ApiBinanceService;
 import com.example.bot_binnance.service.BlogService;
 import com.example.bot_binnance.service.ContentGeneratorService;
 import com.example.bot_binnance.service.GridTradingBot;
 import com.example.bot_binnance.service.LogService;
-import com.example.bot_binnance.service.TelegramBot;
 import com.example.bot_binnance.service.TickerService;
 
-import jakarta.annotation.PostConstruct;
-import net.authorize.util.DateUtil;
-import weka.core.json.sym;
 
 @Component
 public class ScheduledTasks {
