@@ -13,12 +13,15 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.example.bot_binnance.common.DateUtils;
+import com.example.bot_binnance.dto.OrderDto;
 import com.example.bot_binnance.model.ActionLog;
 import com.example.bot_binnance.model.PriceLogDto;
 import com.example.bot_binnance.model.Telegram;
 import com.example.bot_binnance.repository.ActionLogRepository;
 import com.example.bot_binnance.repository.PriceLogRepository;
 import com.example.bot_binnance.repository.TelegramRepository;
+
+import net.authorize.api.contract.v1.OrderType;
 @Service
 public class LogServiceImpl implements LogService {
 	
@@ -144,6 +147,23 @@ public class LogServiceImpl implements LogService {
 	    		                     .set("timeUpdate", LocalDateTime.now());;
 	     mongoTemplate.updateFirst(query, update, ActionLog.class);
 	 }
+
+
+
+	@Override
+	public ActionLog createActionLogOrd(OrderDto orderDto) {
+		// TODO Auto-generated method stub
+		ActionLog actionLog =  new ActionLog();
+
+	  actionLog.setDate(DateUtils.getVietnamTime());
+	  actionLog.setTypeOrder(orderDto.getType());
+	  actionLog.setPrice(Double.parseDouble(orderDto.getAvgPrice()));
+	  actionLog.setSide(orderDto.getSide());
+	  actionLog.setSymbol(orderDto.getSymbol());
+	  actionLog.setTakeProfit( orderDto.getType().equals("TAKE_PROFIT") ?  Double.parseDouble(orderDto.getStopPrice()) : 0);
+	  actionLog.setStoplost( orderDto.getType().equals("STOP") ?  Double.parseDouble(orderDto.getStopPrice()) : 0);
+	  return repository.save(actionLog);
+	}
 	
 	
 

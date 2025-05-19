@@ -93,22 +93,10 @@ public class ScheduledTasks {
 					Double lost = Math.abs(trade.getStopLoss() - trade.getEntryPrice()) * PrivateKeyBinnance.QUANTITY; 
 					
 					if(profit > lost*0.8) {
-						// mới vô lệnh 
-						OrderDto marketOrder = this.binanceService.createOrder(trade.getEntryPrice(), // Giá hiện tại
-								trade.getSignal(), // BUY hoặc SELL
-								BinanceOrderType.MARKET, // Lệnh Market
-								0 // Không có orderId
-						);
-
-						// 2**Tạo Stop-Loss Order**
-						OrderDto stopLossOrder = this.binanceService.createOrder(trade.getStopLoss(),
-								signal.equals("BUY") ? "SELL" : "BUY", // Ngược chiều lệnh chính
-								BinanceOrderType.STOP_MARKET, 0);
-
-						OrderDto takeProfitOrder = this.binanceService.createOrder(trade.getTakeProfit(),
-								signal.equals("BUY") ? "SELL" : "BUY", // Ngược chiều lệnh chính
-								BinanceOrderType.TAKE_PROFIT_MARKET, 0);
-					
+						List<OrderDto> orderDtos = this.binanceService.createLimitOrderWithTPAndSL(trade.getEntryPrice(), trade.getStopLoss(), trade.getTakeProfit(), signal);
+						for (OrderDto item : orderDtos) {
+							this.logService.createActionLogOrd(item);
+						}
 					}
 				}
 			

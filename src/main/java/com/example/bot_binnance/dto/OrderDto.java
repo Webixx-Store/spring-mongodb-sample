@@ -28,6 +28,7 @@ public class OrderDto {
 	    private String priceMatch;
 	    private String selfTradePreventionMode;
 	    private long goodTillDate;
+		private String fee;
 		public String getClientOrderId() {
 			return clientOrderId;
 		}
@@ -183,6 +184,12 @@ public class OrderDto {
 		}
 		public void setGoodTillDate(long goodTillDate) {
 			this.goodTillDate = goodTillDate;
+		}
+		public String getFee() {
+			return fee;
+		}
+		public void setFee(String fee) {
+			this.fee = fee;
 		}
 	    
 	    

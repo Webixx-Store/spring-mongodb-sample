@@ -27,6 +27,8 @@ public interface ApiBinanceService {
 	List<List<Double>> getCloseHighLowPrices(String time);
 	String getBalance() throws JsonMappingException, JsonProcessingException;
 	List<CandleStick> getCandleSticks(String time) throws Exception;
+	public List<OrderDto> createLimitOrderWithTPAndSL(double entryPrice, double stopLossPrice, double takeProfitPrice,
+			String side);
 	
 
 }

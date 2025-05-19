@@ -3,12 +3,14 @@ package com.example.bot_binnance.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.bot_binnance.dto.OrderDto;
 import com.example.bot_binnance.model.ActionLog;
 import com.example.bot_binnance.model.PriceLogDto;
 import com.example.bot_binnance.model.Telegram;
 
 public interface LogService {
 	 public ActionLog createActionLog(ActionLog actionLog);
+	 public ActionLog createActionLogOrd(OrderDto orderDto);
 	 public void deleteActionLog(String id);
 	 public List<ActionLog> getAllActionLogs();
 	 public Optional<ActionLog> getActionLogById(String id);
