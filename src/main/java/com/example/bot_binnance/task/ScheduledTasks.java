@@ -58,12 +58,6 @@ public class ScheduledTasks {
 				if (pDto.get(0).getPositionAmt() == 0d) {
 					this.binanceService.cancelOpenOrder();
 				}
-				ActionLog log = new ActionLog();
-				log.setPrice(candleSticks.get(candleSticks.size() - 1).getClose());
-				log.setSide(trade.getMessage());
-				log.setTakeProfit(trade.getTakeProfit());
-				log.setStoplost(trade.getStopLoss());
-				logService.createActionLog(log);
 				
 				if (pDto.get(0).getPositionAmt() == 0d && !trade.getSignal().equals("WAIT")) {
 					// **Mở lệnh Market**
